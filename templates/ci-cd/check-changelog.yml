@@ -1,0 +1,25 @@
+name: "Check Changelog"
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+    branches: [main]
+
+jobs:
+  check-changelog:
+    name: 🔍 Check Changelog Update
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for Changelog Modification
+        # We assume the script is present in the repo.
+        # In a real setup, you might download this from a shared standards repo.
+        run: |
+          chmod +x ./docs/standards/scripts/check-changelog.sh
+          ./docs/standards/scripts/check-changelog.sh "origin/${{ github.base_ref }}" "origin/${{ github.head_ref }}"
+        env:
+          SKIP_CHANGELOG_LABEL: ${{ contains(github.event.pull_request.labels.*.name, 'skip-changelog') }}

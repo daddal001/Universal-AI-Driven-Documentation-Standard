@@ -1,0 +1,279 @@
+# =============================================================================
+# MkDocs Material Configuration for Documentation Standards
+# =============================================================================
+#
+# PURPOSE: Deploy the Universal Documentation Standards as a local or hosted site
+#
+# QUICK START:
+#   1. Copy this file to the root of your docs-standards repo
+#   2. Run: pip install mkdocs-material
+#   3. Run: mkdocs serve
+#   4. Open: http://localhost:8000
+#
+# DEPLOYMENT:
+#   - GitHub Pages: mkdocs gh-deploy
+#   - Static build: mkdocs build (outputs to site/)
+#
+# =============================================================================
+
+site_name: Documentation Standards
+site_description: Enterprise-grade documentation standards for AI-first engineering teams
+site_author: Your Organization
+site_url: https://docs.yourcompany.com/standards
+
+# Repository (optional - shows edit links)
+repo_name: your-org/documentation-standards
+repo_url: https://github.com/your-org/documentation-standards
+edit_uri: edit/main/
+
+# Copyright footer
+copyright: Licensed under CC BY 4.0
+
+# =============================================================================
+# Theme Configuration
+# =============================================================================
+theme:
+  name: material
+
+  # Color palette with dark mode toggle
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+  # Features
+  features:
+    - navigation.instant          # SPA-like navigation
+    - navigation.tracking         # URL updates with scroll
+    - navigation.tabs            # Top-level nav as tabs
+    - navigation.tabs.sticky     # Tabs stick on scroll
+    - navigation.sections        # Expandable sections
+    - navigation.expand          # Auto-expand nav
+    - navigation.indexes         # Section index pages
+    - navigation.top             # Back-to-top button
+    - search.suggest             # Search suggestions
+    - search.highlight           # Highlight search terms
+    - content.code.copy          # Copy button on code blocks
+    - content.code.annotate      # Code annotations
+    - content.tabs.link          # Linked content tabs
+
+  # Icons
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+
+  # Logo and favicon (customize these)
+  # logo: assets/logo.png
+  # favicon: assets/favicon.ico
+
+# =============================================================================
+# Extensions
+# =============================================================================
+markdown_extensions:
+  # Python Markdown Extensions
+  - abbr                          # Abbreviations
+  - admonition                    # Callout boxes (NOTE, WARNING, etc.)
+  - attr_list                     # Add HTML attributes
+  - def_list                      # Definition lists
+  - footnotes                     # Footnotes
+  - md_in_html                    # Markdown in HTML
+  - tables                        # Tables
+  - toc:
+      permalink: true             # Anchor links on headings
+      toc_depth: 3                # TOC depth
+
+  # PyMdown Extensions
+  - pymdownx.arithmatex:          # Math support
+      generic: true
+  - pymdownx.betterem:            # Improved emphasis
+      smart_enable: all
+  - pymdownx.caret                # Superscript
+  - pymdownx.details              # Collapsible sections
+  - pymdownx.emoji:               # Emoji support
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:           # Syntax highlighting
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite         # Inline code highlighting
+  - pymdownx.keys                 # Keyboard keys
+  - pymdownx.mark                 # Highlighting
+  - pymdownx.smartsymbols         # Smart symbols
+  - pymdownx.superfences:         # Fenced code blocks
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:              # Content tabs
+      alternate_style: true
+  - pymdownx.tasklist:            # Task lists
+      custom_checkbox: true
+  - pymdownx.tilde                # Strikethrough
+
+# =============================================================================
+# Plugins
+# =============================================================================
+plugins:
+  # Built-in search (always works, no external dependencies)
+  - search:
+      lang: en
+      separator: '[\s\-,:!=\[\]()"/]+|(?!\b)(?=[A-Z][a-z])|\.(?!\d)|&[lg]t;'
+      # Boost headings and titles in search results
+      pipeline:
+        - stemmer
+        - stopWordFilter
+        - trimmer
+
+  # Tags for filtering
+  - tags:
+      tags_file: GLOSSARY.md
+
+  # Optional plugins (uncomment as needed)
+  # - git-revision-date-localized:
+  #     enable_creation_date: true
+  #     type: timeago
+  # - minify:
+  #     minify_html: true
+  # - redirects:
+  #     redirect_maps:
+  #       'old-page.md': 'new-page.md'
+
+# =============================================================================
+# Algolia DocSearch (OPTIONAL - Premium Search)
+# =============================================================================
+# For Algolia DocSearch (free for open-source projects):
+# 1. Apply at: https://docsearch.algolia.com/apply/
+# 2. Once approved, you'll receive app_id, api_key, and index_name
+# 3. Uncomment and configure below:
+#
+# extra:
+#   search:
+#     provider: algolia
+#     # Get these from your Algolia DocSearch dashboard
+#     algolia:
+#       app_id: YOUR_APP_ID
+#       api_key: YOUR_SEARCH_API_KEY  # Public search-only key
+#       index_name: documentation-standards
+#
+# Benefits of Algolia over built-in:
+# - Typo tolerance ("autentication" → "authentication")
+# - Synonym support ("auth" → "authentication")
+# - Analytics on search queries
+# - Faster for large doc sets (10,000+ pages)
+# - Better relevance ranking
+
+# =============================================================================
+# Navigation
+# =============================================================================
+nav:
+  - Home: INDEX.md
+  - About: README.md
+
+  - Core Standards:
+    - Philosophy: 01-PHILOSOPHY.md
+    - Know Your Audience: 02-KNOW_YOUR_AUDIENCE.md
+    - Document Types: 03-DOCUMENT_TYPES.md
+    - AI Agents: 04-AI_AGENTS.md
+    - Quality: 05-QUALITY.md
+    - Operations: 06-OPERATIONS.md
+    - Governance: 07-GOVERNANCE.md
+    - Language Specific: 08-LANGUAGE_SPECIFIC.md
+
+  - Style & Accessibility:
+    - Localization: 09-LOCALIZATION.md
+    - Accessibility: 10-ACCESSIBILITY.md
+    - Style Guide: 11-STYLE_GUIDE.md
+    - Reviews: 12-REVIEWS.md
+
+  - Measurement:
+    - Feedback & Analytics: 13-FEEDBACK.md
+    - Visuals: 14-VISUALS.md
+    - CLI Tools: 15-CLI_TOOLS.md
+    - Release Notes: 16-RELEASE_NOTES.md
+    - Maturity Model: 17-MATURITY_MODEL.md
+
+  - Technical Documentation:
+    - API Documentation: 18-API_DOCUMENTATION.md
+    - Database Documentation: 19-DATABASE_DOCUMENTATION.md
+    - Anti-Patterns: 20-ANTI_PATTERNS.md
+    - Service Catalog: 21-SERVICE_CATALOG.md
+    - CI/CD Pipelines: 22-CICD_PIPELINES.md
+    - Data Pipelines: 23-DATA_PIPELINES.md
+
+  - Security & Infrastructure:
+    - Security & Compliance: 24-SECURITY_COMPLIANCE.md
+    - Infrastructure Code: 25-INFRASTRUCTURE_CODE.md
+
+  - Team & Process:
+    - Onboarding: 26-ONBOARDING.md
+    - Postmortems: 27-POSTMORTEMS.md
+
+  - Specialized:
+    - Mobile Apps: 28-MOBILE_APPS.md
+    - ML Model Cards: 29-ML_MODEL_CARDS.md
+    - Testing: 30-TESTING.md
+    - Dependencies: 31-DEPENDENCIES.md
+
+  - Advanced:
+    - Progressive Disclosure: 32-PROGRESSIVE_DISCLOSURE.md
+    - ADR: 33-ADR.md
+    - Search Optimization: 34-SEARCH_OPTIMIZATION.md
+    - Documentation Portal: 35-DOCUMENTATION_PORTAL.md
+
+  - Reference:
+    - Glossary: GLOSSARY.md
+    - Contributing: CONTRIBUTING.md
+
+# =============================================================================
+# Extra Configuration
+# =============================================================================
+extra:
+  # Social links in footer
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/your-org/documentation-standards
+    - icon: fontawesome/brands/slack
+      link: https://your-org.slack.com/channels/documentation
+
+  # ==========================================================================
+  # VERSION SUPPORT (Mike)
+  # ==========================================================================
+  # Mike allows you to deploy multiple versions side-by-side.
+  # Users can switch between versions using a dropdown.
+  # Previous versions are ALWAYS accessible - never deleted automatically.
+  #
+  # How it works:
+  #   your-site.com/1.0/  ← Version 1.0 (always accessible)
+  #   your-site.com/2.0/  ← Version 2.0 (always accessible)
+  #   your-site.com/latest/ ← Alias pointing to newest
+  #
+  # Deploy commands:
+  #   mike deploy 1.0           # Deploy version 1.0
+  #   mike deploy 2.0 latest    # Deploy 2.0 and update 'latest' alias
+  #   mike set-default latest   # Redirect root to 'latest'
+  #   mike list                 # Show all deployed versions
+  #   mike delete 1.0           # Remove a version (optional)
+  version:
+    provider: mike
+    default: stable
+
+  # Analytics (optional)
+  # analytics:
+  #   provider: google
+  #   property: G-XXXXXXXXXX
+
+# Extra CSS/JS (optional)
+# extra_css:
+#   - stylesheets/extra.css
+# extra_javascript:
+#   - javascripts/extra.js

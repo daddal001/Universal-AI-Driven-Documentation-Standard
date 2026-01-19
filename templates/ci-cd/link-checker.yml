@@ -1,0 +1,34 @@
+# ==============================================================================
+# Link Checker Workflow
+# ==============================================================================
+#
+# Checks for broken links in documentation.
+# Runs on PR and weekly schedule.
+#
+# ==============================================================================
+
+name: Link Checker
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
+      - '*.md'
+  schedule:
+    - cron: '0 2 * * 0'  # Weekly on Sunday at 2 AM
+
+jobs:
+  check-links:
+    name: Check Links
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check Markdown Links
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          use-verbose-mode: 'no'
+          config-file: '.markdown-link-check.json'
+          folder-path: 'docs/'

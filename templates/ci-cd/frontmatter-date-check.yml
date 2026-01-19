@@ -1,0 +1,116 @@
+# =============================================================================
+# Frontmatter Date Check
+# =============================================================================
+# Ensures that when .md files are modified, the last_updated field is changed.
+# This prevents "documentation drift" where content changes but dates stay stale.
+#
+# Logic:
+#   - For each changed .md file
+#   - Compare last_updated in the PR version vs the base branch
+#   - If unchanged, block the PR
+#   - If changed (to any date), allow it
+#
+# =============================================================================
+
+name: Frontmatter Date Check
+
+on:
+  pull_request:
+    paths:
+      - '**/*.md'
+  push:
+    branches: [main]
+    paths:
+      - '**/*.md'
+
+jobs:
+  check-last-updated:
+    runs-on: ubuntu-latest
+    name: Check last_updated dates
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Need full history to compare with base
+
+      - name: Get changed markdown files
+        id: changed-files
+        uses: tj-actions/changed-files@v44
+        with:
+          files: |
+            **/*.md
+
+      - name: Check frontmatter dates
+        if: steps.changed-files.outputs.any_changed == 'true'
+        shell: bash
+        env:
+          CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          echo "🔍 Checking last_updated dates in changed markdown files..."
+
+          failed=false
+          failed_files=""
+
+          for file in $CHANGED_FILES; do
+            echo ""
+            echo "📄 Checking: $file"
+
+            # Skip if file doesn't exist (deleted)
+            if [ ! -f "$file" ]; then
+              echo "   ⏭️  Skipped (file deleted)"
+              continue
+            fi
+
+            # Extract current last_updated (handle both quoted and unquoted)
+            current_date=$(head -50 "$file" | grep -E "^last_updated:" | head -1 | sed 's/last_updated:\s*//' | tr -d '"' | tr -d "'" | xargs)
+
+            # If no frontmatter or no last_updated field, skip
+            if [ -z "$current_date" ]; then
+              echo "   ⚠️  No last_updated field found (skipping)"
+              continue
+            fi
+
+            echo "   Current: $current_date"
+
+            # Check if file existed in base branch
+            if git show "$BASE_SHA:$file" &>/dev/null; then
+              # Extract previous last_updated
+              previous_date=$(git show "$BASE_SHA:$file" 2>/dev/null | head -50 | grep -E "^last_updated:" | head -1 | sed 's/last_updated:\s*//' | tr -d '"' | tr -d "'" | xargs)
+
+              echo "   Previous: ${previous_date:-"(new file)"}"
+
+              # Compare dates
+              if [ -n "$previous_date" ] && [ "$current_date" = "$previous_date" ]; then
+                echo "   ❌ FAILED: last_updated not changed!"
+                failed=true
+                failed_files="$failed_files\n   - $file"
+              else
+                echo "   ✅ OK: last_updated was updated"
+              fi
+            else
+              echo "   ✅ OK: New file"
+            fi
+          done
+
+          echo ""
+          echo "=================================="
+
+          if [ "$failed" = true ]; then
+            echo "❌ BLOCKED: The following files were modified but last_updated was not changed:"
+            echo -e "$failed_files"
+            echo ""
+            echo "💡 Fix: Update the last_updated field in the YAML frontmatter."
+            echo "   Example:"
+            echo "   ---"
+            echo "   last_updated: \"$(date +%Y-%m-%d)\""
+            echo "   ---"
+            exit 1
+          else
+            echo "✅ All changed markdown files have updated last_updated dates!"
+          fi
+
+      - name: No markdown changes
+        if: steps.changed-files.outputs.any_changed != 'true'
+        run: echo "No markdown files changed, skipping check."

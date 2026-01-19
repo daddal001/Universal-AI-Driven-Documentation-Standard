@@ -1,0 +1,31 @@
+# ==============================================================================
+# Vale Style Linting Workflow
+# ==============================================================================
+#
+# Lints prose using Vale for style consistency.
+# Requires .vale.ini in repository root.
+#
+# ==============================================================================
+
+name: Vale Style Check
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
+      - '*.md'
+
+jobs:
+  vale:
+    name: Vale Linting
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Vale Linting
+        uses: errata-ai/vale-action@v2
+        with:
+          files: docs/
+          reporter: github-check
+          fail_on_error: false  # Set to true to block PRs

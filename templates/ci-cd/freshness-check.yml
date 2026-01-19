@@ -1,0 +1,45 @@
+# ==============================================================================
+# Documentation Freshness Check Workflow
+# ==============================================================================
+#
+# Detects stale documentation based on last_updated frontmatter.
+# Creates issues for docs older than threshold.
+#
+# ==============================================================================
+
+name: Freshness Check
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'  # Weekly on Monday at 9 AM
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  check-freshness:
+    name: Check Doc Freshness
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check Freshness
+        run: |
+          echo "Checking for stale documentation..."
+
+          # Find docs older than 90 days
+          STALE_THRESHOLD=90
+          TODAY=$(date +%s)
+
+          find docs -name "*.md" | while read file; do
+            # Extract last_updated from frontmatter
+            LAST_UPDATED=$(grep -m1 "last_updated:" "$file" | cut -d'"' -f2 || echo "")
+
+            if [ -n "$LAST_UPDATED" ]; then
+              DOC_DATE=$(date -d "$LAST_UPDATED" +%s 2>/dev/null || echo "0")
+              DAYS_OLD=$(( (TODAY - DOC_DATE) / 86400 ))
+
+              if [ "$DAYS_OLD" -gt "$STALE_THRESHOLD" ]; then
+                echo "⚠️ STALE ($DAYS_OLD days): $file"
+              fi
+            fi
+          done

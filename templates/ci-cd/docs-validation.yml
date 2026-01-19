@@ -1,0 +1,98 @@
+# ==============================================================================
+# Documentation Validation Workflow
+# ==============================================================================
+#
+# TRIGGERS:
+#   - Pull requests affecting docs/ or *.md files
+#
+# WHAT IT DOES:
+#   1. Validates frontmatter in all Markdown files
+#   2. Checks document structure
+#   3. Validates freshness dates
+#   4. Checks for broken links
+#   5. Runs Vale style linting (optional)
+#
+# CUSTOMIZATION:
+#   - Adjust 'paths' to match your docs location
+#   - Remove steps you don't need
+#   - Add Vale config at .vale.ini if using style linting
+#
+# ==============================================================================
+
+name: Documentation Validation
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
+      - '*.md'
+      - '!docs/standards/templates/**'  # Don't validate templates themselves
+
+jobs:
+  validate:
+    name: Validate Documentation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ------------------------------------------------------------------
+      # Frontmatter Validation
+      # Ensures all docs have required metadata
+      # ------------------------------------------------------------------
+      - name: Validate Frontmatter
+        run: |
+          if [ -f "docs/standards/scripts/validate-frontmatter.sh" ]; then
+            bash docs/standards/scripts/validate-frontmatter.sh
+          else
+            echo "⚠️ Frontmatter validation script not found, skipping"
+          fi
+
+      # ------------------------------------------------------------------
+      # Structure Validation
+      # Checks heading hierarchy, required sections
+      # ------------------------------------------------------------------
+      - name: Validate Structure
+        run: |
+          if [ -f "docs/standards/scripts/validate-structure.sh" ]; then
+            bash docs/standards/scripts/validate-structure.sh
+          else
+            echo "⚠️ Structure validation script not found, skipping"
+          fi
+
+      # ------------------------------------------------------------------
+      # Freshness Check
+      # Flags docs older than configured threshold
+      # ------------------------------------------------------------------
+      - name: Check Freshness
+        run: |
+          if [ -f "docs/standards/scripts/check-freshness.sh" ]; then
+            bash docs/standards/scripts/check-freshness.sh
+          else
+            echo "⚠️ Freshness check script not found, skipping"
+          fi
+
+      # ------------------------------------------------------------------
+      # Link Checker
+      # Finds broken internal and external links
+      # ------------------------------------------------------------------
+      - name: Check Links
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          config-file: '.markdown-link-check.json'
+          folder-path: 'docs/'
+        continue-on-error: true  # Don't fail build on external link issues
+
+      # ------------------------------------------------------------------
+      # Vale Style Linting (Optional)
+      # Requires .vale.ini configuration
+      # ------------------------------------------------------------------
+      - name: Style Check (Vale)
+        uses: errata-ai/vale-action@v2
+        with:
+          files: docs/
+          reporter: github-check
+        continue-on-error: true  # Warnings only, don't block PRs
+        if: hashFiles('.vale.ini') != ''
