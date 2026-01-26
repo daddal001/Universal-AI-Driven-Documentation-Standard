@@ -37,3 +37,39 @@ bash docs/standards/init.sh
 ```
 
 **What it does:**
+
+- Detects your repo type and suggests the right doc set
+- Copies templates into your repo (no overwrite)
+- Optionally adds `llms.txt` and `AGENTS.md` for AI assistants
+- Can add validation scripts and CI workflow
+
+### 2. Choose Your Path
+
+Pick the setup that matches your team and time:
+
+| You Are | Time | Command | Guide |
+|---------|------|---------|-------|
+| Solo developer | 30 sec | `bash docs/standards/init.sh --solo` | [QUICK_START_SOLO.md](./QUICK_START_SOLO.md) |
+| OSS maintainer | 2 min | `bash docs/standards/init.sh --oss` | [QUICK_START_OSS.md](./QUICK_START_OSS.md) |
+| Startup/Team | 5-15 min | `bash docs/standards/init.sh` | [QUICK_START_TEAM.md](./QUICK_START_TEAM.md) |
+| Enterprise | 1-2 hours | `bash docs/standards/init.sh` (Enterprise) | [QUICK_START_ENTERPRISE.md](./QUICK_START_ENTERPRISE.md) |
+
+If you cloned this repo directly (not as a submodule), run the same commands from the repo root by replacing `docs/standards/init.sh` with `init.sh`.
+
+### 3. Verify and Customize
+
+1. Open the generated files and replace placeholders with real data.
+2. Keep only the templates you need; delete the rest.
+3. Optional: run validation scripts if you enabled them.
+
+```bash
+# Example validations
+bash docs/standards/scripts/validate-frontmatter.sh docs/
+bash docs/standards/scripts/check-freshness.sh docs/ --days 90
+```
+
+### Where to Go Next
+
+- Decision tree for the right mode: [INDEX.md](./INDEX.md)
+- Examples of finished docs: [examples/README.md](./examples/README.md)
+- Full standard list: [INDEX.md](./INDEX.md)

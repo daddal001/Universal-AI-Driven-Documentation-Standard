@@ -49,6 +49,27 @@ bash init.sh --team    # Full setup with AI support + runbooks
 bash init.sh --help    # See all options
 ```
 
+### Add as a Git Submodule
+
+If you want to keep this standard versioned alongside your repo:
+
+```bash
+git submodule add https://github.com/daddal001/Universal-AI-Driven-Documentation-Standard.git docs/standards
+git submodule update --init --recursive
+```
+
+Then run the installer from the submodule:
+
+```bash
+bash docs/standards/init.sh --solo
+```
+
+To pull updates later:
+
+```bash
+git submodule update --remote --merge
+```
+
 ## What You Get
 
 | Mode | Files Created | Best For |
