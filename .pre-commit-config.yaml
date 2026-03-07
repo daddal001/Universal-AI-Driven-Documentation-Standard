@@ -1,0 +1,31 @@
+# Pre-commit hooks — run locally before every commit
+# Install: pip install pre-commit && pre-commit install
+# Or use the installer: bash scripts/git-hooks/install.sh
+# Docs: https://pre-commit.com/
+
+repos:
+  # ── Documentation enforcement (scope-aware) ────────────────────
+  - repo: local
+    hooks:
+      - id: docs-enforcement
+        name: Documentation update enforcement
+        entry: bash scripts/git-hooks/pre-commit
+        language: system
+        pass_filenames: false
+
+  # ── General hygiene + quality checks ───────────────────────────
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        args: ['--unsafe']
+      - id: check-merge-conflict
+
+  # ── Markdown Linting ───────────────────────────────────────────
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.20.0
+    hooks:
+      - id: markdownlint-cli2
+        args: [--fix]

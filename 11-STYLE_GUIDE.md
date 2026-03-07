@@ -1,17 +1,19 @@
 ---
-title: Style Guide & Tooling
-type: standard
-status: approved
-owner: technical-writing-team
-classification: public
+title: "Style Guide & Tooling"
+type: "standard"
+status: "approved"
+owner: "@documentation-maintainer"
+classification: "public"
 created: "2025-12-09"
-last_updated: "2025-12-12"
-version: "1.0.0"
+last_updated: "2026-03-07"
+version: "1.1.0"
 ---
 
+# Style Guide & Tooling
 
+> **Goal:** Automate adherence to the **Google Developer Documentation Style Guide** using the `Vale` linter, and enforce consistent formatting with `markdownlint`.
 
-> **Goal:** Automate adherence to the **Google Developer Documentation Style Guide** using the `Vale` linter.
+---
 
 ## 1. Voice and Tone
 
@@ -25,11 +27,35 @@ version: "1.0.0"
   * **Bad:** "The user should click..."
   * **Good:** "Click..."
 
+### Tone Matrix
+
+Match your tone to the document type:
+
+| Document Type | Tone | Example |
+|---------------|------|---------|
+| Getting Started | Encouraging, concise | "You're ready to deploy." |
+| API Reference | Neutral, precise | "Returns the resource or `404`." |
+| Troubleshooting | Empathetic, direct | "This error occurs when..." |
+| Architecture / ADR | Analytical, objective | "We chose X because Y." |
+| Runbook / Incident | Urgent, imperative | "Restart the service immediately." |
+| CHANGELOG | Factual, brief | "Add retry logic to auth flow." |
+
 ## 2. Inclusive Language
 
 * Avoid gendered terms ("guys", "he/she"). Use "they", "users", or "engineers".
 * Avoid ableist language ("sanity check", "blindly"). Use "completeness check", "unconditionally".
 * Avoid violent metaphors ("kill the process"). Use "terminate" or "stop".
+
+### Replacement Reference
+
+| Avoid | Use Instead |
+|-------|-------------|
+| whitelist / blacklist | allowlist / denylist |
+| master / slave | primary / replica, leader / follower |
+| sanity check | smoke test, completeness check |
+| dummy value | placeholder value, sample value |
+| crippled | degraded, limited |
+| grandfathered | legacy, exempt |
 
 ## 3. Google Style Highlights
 
@@ -39,25 +65,73 @@ version: "1.0.0"
 * **Pre-announcements:** Do not document features that do not exist yet.
   * **Rule:** Documentation must match *current* reality.
   * **Exception:** Explicit "Beta" or "Preview" banners.
+* **Contractions:** Use contractions for informal docs (tutorials, guides). Avoid in formal specs.
+* **Lists:** Use numbered lists for sequential steps, bullet lists for unordered items. Do not mix.
 
 ## 4. Terminology Consistency
 
 * **Google Style:** Follow capitalization rules (e.g., "URL" not "Url", "ID" not "Id").
 * **Project Terms:** Define canonical terms in `.vale/styles/Vocab/` to prevent spelling variations (e.g., "GitHub" vs "Github").
 
-## 5. 2025 Terminology Updates (Google & Microsoft)
+### Creating a Project Vocabulary
+
+```text
+.vale/styles/Vocab/ProjectTerms/
+├── accept.txt    # Terms that ARE correct
+└── reject.txt    # Terms that are WRONG
+```
+
+**accept.txt:**
+```text
+Kubernetes
+GitHub
+PostgreSQL
+```
+
+**reject.txt:**
+```text
+Github
+Kubernete
+Postgre
+```
+
+## 5. Comment Conventions in Code Samples
+
+Code samples in documentation should follow consistent comment patterns:
+
+| Comment Type | Convention | Example |
+|--------------|-----------|---------|
+| Explanation | `# ` prefix, sentence case | `# Connect to the database` |
+| Output | `# =>` prefix | `# => {"status": "ok"}` |
+| Placeholder | `<ANGLE_BRACKETS>` | `export API_KEY=<YOUR_API_KEY>` |
+| Omission | `# ...` | `# ... (remaining config)` |
+| Warning | `# WARNING:` prefix | `# WARNING: This deletes all data` |
+
+## 6. 2025 Terminology Updates (Google & Microsoft)
 
 * **Units:** Distinguish between binary and decimal units.
   * **GiB/KiB:** Use for binary bytes (1024 base).
   * **GB/KB:** Use for decimal bytes (1000 base).
-* **"Real-time":** Use unhyphenated "realtime" (adjective or noun) or "real time" depending on context, avoiding unnecessary hyphens.
+* **"Real-time":** Use unhyphenated "realtime" (adjective or noun) or "real time" depending on context.
 * **UI Elements:**
   * **Use:** "Select" instead of "click" for dropdowns.
   * **Avoid:** "Drop-down" (noun) or "drop-down list". Use "menu" or "list".
 * **"Copilot":** Do not use as a generic term. Refers specifically to Microsoft Copilot or GitHub Copilot.
 * **Hyphenation:** Use "anti-malware" (hyphenated).
 
-## 6. Automated Enforcement
+## 7. Common Mistakes
+
+| Mistake | Why It's Wrong | Fix |
+|---------|----------------|-----|
+| "Click here" | Inaccessible link text | Use descriptive text: "See the [API docs](...)" |
+| Heading as bold | Breaks document structure | Use `##` heading levels |
+| Screenshot without alt | Inaccessible image | Add descriptive alt text |
+| "Simply run..." | Dismissive of complexity | "Run..." |
+| "Obviously..." | Assumes reader knowledge | Remove or explain |
+| Mixing numbered + bullet lists | Confusing hierarchy | Use one type per list |
+| "Please" in instructions | Unnecessary filler | Use imperative: "Run the command" |
+
+## 8. Automated Enforcement
 
 ### Vale (Prose Linting)
 
@@ -68,15 +142,37 @@ We use **Vale** to enforce these rules. The parsed configuration (`.vale.ini`) a
 * **`Google.Will`**: Flags future tense.
 * **`Google.Headings`**: Checks sentence case in headers.
 
+**Setup:**
+
+```ini
+# .vale.ini
+StylesPath = .vale/styles
+MinAlertLevel = suggestion
+
+Vocab = ProjectTerms
+
+[*.md]
+BasedOnStyles = Google
+```
+
+```bash
+# Install and run
+brew install vale        # macOS
+vale sync                # Download styles
+vale docs/               # Lint
+```
+
 ### Markdownlint (Format Linting)
 
-We use **markdownlint-cli2** for markdown formatting checks. Configuration is in `.markdownlint.json`:
+We use **markdownlint-cli2** for markdown formatting checks. Configuration is in `.markdownlint-cli2.yaml`.
 
-**Disabled Rules:**
+**Key disabled rules:**
 
-* **MD013**: Line length (disabled for flexibility)
-* **MD040**: Fenced code block language (disabled - language tags optional)
-* **MD060**: Inline HTML (disabled - allows HTML when needed)
+| Rule | Reason |
+|------|--------|
+| MD013 | Line length — disabled for flexibility |
+| MD033 | Inline HTML — allowed when needed |
+| MD040 | Fenced code block language — optional |
 
 **Running the Linter:**
 
@@ -90,7 +186,7 @@ npx markdownlint-cli2 --fix "**/*.md"
 
 ---
 
-## 7. Related Documents
+## 9. Related Documents
 
 | Document | Purpose |
 |----------|---------|

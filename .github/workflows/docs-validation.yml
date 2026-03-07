@@ -1,0 +1,74 @@
+# ==============================================================================
+# Documentation Validation Workflow (active — dogfooding this repo's own tools)
+# ==============================================================================
+#
+# This is the active workflow for the Universal Documentation Standard repo.
+# For the copyable template version, see: templates/ci-cd/docs-validation.yml
+#
+# ==============================================================================
+
+name: Documentation Validation
+
+on:
+  pull_request:
+    paths:
+      - '**/*.md'
+      - '!templates/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate Documentation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate Frontmatter
+        run: |
+          if [ -f "scripts/validate-frontmatter.sh" ]; then
+            bash scripts/validate-frontmatter.sh
+          else
+            echo "⚠️ Frontmatter validation script not found, skipping"
+          fi
+
+      - name: Validate Structure
+        run: |
+          if [ -f "scripts/validate-structure.sh" ]; then
+            bash scripts/validate-structure.sh
+          else
+            echo "⚠️ Structure validation script not found, skipping"
+          fi
+
+      - name: Check Freshness
+        run: |
+          if [ -f "scripts/check-freshness.sh" ]; then
+            bash scripts/check-freshness.sh
+          else
+            echo "⚠️ Freshness check script not found, skipping"
+          fi
+
+      - name: Check Links
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          folder-path: '.'
+        continue-on-error: true
+
+      - name: Markdown Lint
+        uses: DavidAnson/markdownlint-cli2-action@v19
+        with:
+          globs: '**/*.md'
+        continue-on-error: true
+
+      - name: Style Check (Vale)
+        uses: errata-ai/vale-action@v2
+        with:
+          files: .
+          reporter: github-check
+        continue-on-error: true
+        if: hashFiles('.vale.ini') != ''

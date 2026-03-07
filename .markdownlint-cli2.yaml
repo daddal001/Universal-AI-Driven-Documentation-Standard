@@ -1,0 +1,56 @@
+ignores:
+  - "node_modules/**"
+  - ".git/**"
+
+config:
+  # MD013 - Line length
+  # Disabled: Markdown files often have long lines for URLs, tables, code examples
+  MD013: false
+
+  # MD060 - Table column style
+  # Disabled: Too strict for practical use with various table formats
+  MD060: false
+
+  # MD025 - Multiple top-level headings
+  # Allow multiple h1 headings in documents (common in compliance docs)
+  MD025: false
+
+  # MD033 - Inline HTML
+  # Allow inline HTML (often needed for <details>/<summary> and complex formatting)
+  MD033: false
+
+  # MD024 - Multiple headings with same content
+  # Allow: Same headings in different sections is valid (e.g., "Overview" in multiple sections)
+  MD024: false
+
+  # MD036 - Emphasis used instead of heading
+  # Disabled: Sometimes stylistic emphasis is intentional
+  MD036: false
+
+  # MD040 - Fenced code blocks should have a language
+  # Disabled: Plain code blocks without language are valid
+  MD040: false
+
+  # MD051 - Link fragments should be valid
+  # Disabled: Can have false positives with certain documentation structures
+  MD051: false
+
+  # MD028 - Blank line inside blockquote
+  # Disabled: Sometimes needed for readability
+  MD028: false
+
+  # MD059 - Descriptive link text
+  # Disabled: "here" and similar link texts are sometimes appropriate
+  MD059: false
+
+  # MD003 - Heading style
+  # Disabled: Allow both ATX (###) and setext (===) styles
+  MD003: false
+
+  # MD001 - Heading levels increment
+  # Disabled: Allow skipping heading levels when needed
+  MD001: false
+
+  # MD056 - Table column count
+  # Disabled: Tables sometimes have intentional column variations
+  MD056: false

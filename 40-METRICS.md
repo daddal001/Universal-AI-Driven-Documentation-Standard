@@ -828,4 +828,4 @@ graph TB
 ---
 
 **Previous:** [39 - Integrations](./39-INTEGRATIONS.md)
-**Next:** [Index](./INDEX.md)
+**Next:** [41 - Observability](./41-OBSERVABILITY.md)

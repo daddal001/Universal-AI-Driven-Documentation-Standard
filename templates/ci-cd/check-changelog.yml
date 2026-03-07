@@ -18,8 +18,10 @@ jobs:
       - name: Check for Changelog Modification
         # We assume the script is present in the repo.
         # In a real setup, you might download this from a shared standards repo.
+        env:
+          BASE_REF: ${{ github.base_ref }}
+          HEAD_REF: ${{ github.head_ref }}
+          SKIP_CHANGELOG_LABEL: ${{ contains(github.event.pull_request.labels.*.name, 'skip-changelog') }}
         run: |
           chmod +x ./docs/standards/scripts/check-changelog.sh
-          ./docs/standards/scripts/check-changelog.sh "origin/${{ github.base_ref }}" "origin/${{ github.head_ref }}"
-        env:
-          SKIP_CHANGELOG_LABEL: ${{ contains(github.event.pull_request.labels.*.name, 'skip-changelog') }}
+          ./docs/standards/scripts/check-changelog.sh "origin/$BASE_REF" "origin/$HEAD_REF"

@@ -5,8 +5,8 @@ status: "approved"
 owner: "@sre-team"
 classification: "public"
 created: "2025-12-09"
-last_updated: "2025-12-09"
-version: "1.0.0"
+last_updated: "2026-03-04"
+version: "2.0.0"
 ---
 
 # Incident Postmortem Documentation
@@ -169,6 +169,8 @@ releasing them after the query completed.
 
 ## 3. Severity Classification
 
+### 3.1 Operational Incidents
+
 | Severity | Criteria | Postmortem Required |
 |----------|----------|---------------------|
 | **P0** | Complete service outage | ✅ Mandatory within 48h |
@@ -176,9 +178,108 @@ releasing them after the query completed.
 | **P2** | Minor feature affected, workaround exists | 📝 Recommended |
 | **P3** | Minimal impact | ❌ Optional |
 
+### 3.2 Security / CVE Incidents
+
+Security vulnerabilities use a parallel classification based on CVSS score and exploitation context. All CVE remediations that required code or infrastructure changes require a postmortem — even if no exploit occurred — to satisfy ISO 27001 A.5.27 (Learning from incidents) and SOC 2 CC7.4 evidence requirements.
+
+| Severity | CVSS Range | Criteria | Postmortem Required | Remediation SLA |
+|----------|-----------|----------|---------------------|-----------------|
+| **P0** | 9.0–10.0 (Critical) | Active exploitation or CISA KEV listed | ✅ Mandatory within 48h | 14 days |
+| **P1** | 7.0–8.9 (High) | Affects production, no known exploitation | ✅ Mandatory within 1 week | 30 days |
+| **P2** | 4.0–6.9 (Medium) | Requires specific conditions to exploit | 📝 Recommended | 60 days |
+| **P3** | 0.1–3.9 (Low) | Minimal exploitability | ❌ Optional | 90 days |
+
+> **Note:** If a CVE has an EPSS score ≥ 10% (high exploit probability), escalate one severity level regardless of CVSS score.
+
 ---
 
-## 4. Postmortem Process
+## 4. CVE / Security Vulnerability Section
+
+When the incident involves a CVE or security vulnerability, the postmortem **MUST** include the following additional section between "Summary" and "Impact". This section is required by ISO 27001 A.5.26 (Response to information security incidents) and provides evidence for SOC 2 CC7.3-CC7.5.
+
+### 4.1 Required Fields
+
+```markdown
+## Vulnerability Details
+
+| Field | Value |
+|-------|-------|
+| **CVE ID** | CVE-YYYY-NNNNN |
+| **CVSS Score** | X.X (Critical / High / Medium / Low) |
+| **CVSS Vector** | CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N |
+| **EPSS Score** | X.XX% (as of YYYY-MM-DD) |
+| **CISA KEV** | Yes / No (date added if applicable) |
+| **CWE** | CWE-XXX: [Name] |
+| **Affected Component** | [software name and version range] |
+| **Fixed Version** | [version that resolves the vulnerability] |
+| **Our Version (Before)** | [version we were running] |
+| **Our Version (After)** | [version we upgraded to] |
+| **MITRE ATT&CK** | [Tactic: Technique ID — Technique Name] |
+| **Patch Available Date** | YYYY-MM-DD |
+| **Remediation Deadline** | YYYY-MM-DD (per SLA from §3.2) |
+| **Remediation Completed** | YYYY-MM-DD |
+| **SLA Met** | ✅ Yes / ❌ No (X days under/over) |
+
+### Attack Vector Analysis
+
+[Describe how an attacker could exploit this vulnerability in the context of
+our deployment. Include network path, required preconditions, and what data
+or systems would be at risk.]
+
+### GDPR Data Impact Assessment
+
+| Question | Answer |
+|----------|--------|
+| Could personal data be accessed? | Yes / No |
+| Data categories at risk | [e.g., email addresses, session tokens, documents] |
+| Data subjects at risk | [e.g., all platform users, admin users only] |
+| Breach notification required? | Yes (Art. 33) / No |
+| Supervisory authority notified? | Yes (date) / N/A |
+```
+
+### 4.2 Backlog Check (Atlassian Pattern)
+
+Every CVE postmortem must answer:
+
+> **"Was this fix already known but deprioritized?"**
+
+| Question | Answer |
+|----------|--------|
+| Was a Dependabot/Renovate PR open for this update? | Yes / No |
+| Was a security advisory previously triaged? | Yes / No |
+| If yes, why was it deprioritized? | [Reason] |
+| Process change to prevent future deprioritization | [Action] |
+
+### 4.3 Recurrence Linkage
+
+If similar vulnerabilities have occurred before, link them:
+
+```markdown
+### Recurrence Analysis
+
+| Previous Incident | Similarity | Action Items Completed? |
+|-------------------|------------|------------------------|
+| [INC-YYYY-MM-DD-XXX](link) | Same component / Same CWE / Same vendor | ✅ / ❌ |
+```
+
+### 4.4 Compliance Evidence Checklist
+
+Every CVE postmortem serves as audit evidence. Before marking "Complete", verify:
+
+| Requirement | Standard | Verified |
+|-------------|----------|----------|
+| Vulnerability identified and classified | ISO 27001 A.5.25 | ☐ |
+| Response actions documented | ISO 27001 A.5.26 | ☐ |
+| Root cause analyzed | ISO 27001 A.5.27 | ☐ |
+| Evidence preserved (logs, screenshots) | ISO 27001 A.5.28 | ☐ |
+| Remediation SLA tracked | SOC 2 CC7.4 | ☐ |
+| GDPR data impact assessed | GDPR Art. 33-34 | ☐ |
+| Action items have owners and due dates | SOC 2 CC7.5 | ☐ |
+| Supply chain impact assessed | NIS2 Art. 23 | ☐ |
+
+---
+
+## 5. Postmortem Process
 
 ### Timeline
 
@@ -211,7 +312,7 @@ flowchart LR
 
 ---
 
-## 5. Action Item Tracking
+## 6. Action Item Tracking
 
 ### Required Fields
 
@@ -237,7 +338,7 @@ flowchart LR
 
 ---
 
-## 6. Sharing & Learning
+## 7. Sharing & Learning
 
 ### Distribution
 
@@ -257,13 +358,16 @@ flowchart LR
 
 ---
 
-## 7. Related Documents
+## 8. Related Documents
 
 | Document | Purpose |
 |----------|---------|
 | [Operations](./06-OPERATIONS.md) | Runbooks, on-call |
 | [CI/CD Pipelines](./22-CICD_PIPELINES.md) | Deployment incidents |
 | [Service Catalog](./21-SERVICE_CATALOG.md) | Service ownership |
+| [Incident Response Plan](../compliance/policies/INCIDENT_RESPONSE_PLAN.md) | ISO 27001 / GDPR response procedures |
+| [Supply Chain Incident Runbook](../operations/SUPPLY_CHAIN_INCIDENT_RUNBOOK.md) | Third-party dependency CVE procedures |
+| [Incident Index](../incidents/README.md) | All postmortem documents |
 
 ---
 

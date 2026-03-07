@@ -4,8 +4,8 @@ type: "landing"
 classification: "public"
 owner: "@documentation-maintainer"
 created: "2025-12-09"
-last_updated: "2025-01-12"
-version: "1.1.0"
+last_updated: "2026-03-07"
+version: "1.3.0"
 status: "approved"
 ---
 
@@ -87,6 +87,10 @@ This modular standard helps you write docs that work for humans AND AI assistant
 | 15 | [CLI Tools](./15-CLI_TOOLS.md) | Command-line docs | You're documenting a CLI |
 | 18 | [API Documentation](./18-API_DOCUMENTATION.md) | REST, GraphQL, OpenAPI | You're documenting APIs |
 | 19 | [Database Documentation](./19-DATABASE_DOCUMENTATION.md) | Schemas, ERDs | You're documenting databases |
+| 42 | [Architecture](./42-ARCHITECTURE.md) | C4 Model, arc42, system docs | You're documenting system architecture |
+| 43 | [Configuration & Flags](./43-CONFIGURATION_FLAGS.md) | Env vars, feature flags, config schemas | You're documenting configuration |
+| 44 | [Error Catalog](./44-ERROR_CATALOG.md) | Error codes, resolutions | You're standardizing error handling |
+| 45 | [Monorepo Patterns](./45-MONOREPO_PATTERNS.md) | Multi-package docs | You have a monorepo |
 
 ### Process Standards
 
@@ -116,7 +120,7 @@ Pre-built templates ready to copy and customize:
 | Tier | Templates | Best For |
 |------|-----------|----------|
 | [tier-oss](./templates/tier-oss/) | CONTRIBUTING, CODE_OF_CONDUCT, SECURITY | Open source projects |
-| [tier-1-system](./templates/tier-1-system/) | README, ARCHITECTURE, ADR, API | All projects |
+| [tier-1-system](./templates/tier-1-system/) | README, ARCHITECTURE, ADR, API, CONFIGURATION, ERROR_CATALOG | All projects |
 | [tier-2-operational](./templates/tier-2-operational/) | RUNBOOK, ONCALL_GUIDE, SLO | Production services |
 | [tier-3-developer](./templates/tier-3-developer/) | GETTING_STARTED, HOW_TO | Developer onboarding |
 | [tier-4-process](./templates/tier-4-process/) | POSTMORTEM, MIGRATION | Process documentation |
@@ -131,15 +135,49 @@ Real-world examples showing what good docs look like:
 
 - [Copy-Paste README](./examples/COPY_PASTE_README.md) - Just copy and edit
 - [Example Service README](./examples/example-service-readme.md)
+- [Example Open Source README](./examples/example-open-source-readme.md)
 - [Example API Documentation](./examples/example-api-documentation.md)
-- [Example Postmortem](./examples/example-postmortem.md)
+- [Example Architecture](./examples/example-architecture.md)
+- [Example Startup Architecture](./examples/example-startup-architecture.md)
 - [Example ADR](./examples/example-adr.md)
+- [Example Postmortem](./examples/example-postmortem.md)
+- [Example Postmortem (CVE)](./examples/example-postmortem-cve.md)
+- [Example Runbook](./examples/example-runbook.md)
+- [Example SLO](./examples/example-slo.md)
+- [Example Getting Started](./examples/example-getting-started.md)
+- [Example Contributing Guide](./examples/example-contributing.md)
+- [Example Changelog](./examples/example-changelog.md)
+- [Example Configuration Reference](./examples/example-configuration.md)
+- [Example Error Catalog](./examples/example-error-catalog.md)
+- [Example Monorepo Documentation](./examples/example-monorepo.md)
+- [Example Enterprise Compliance](./examples/example-enterprise-compliance.md)
 
 ---
 
-## Validation & Automation
+## Tooling & Automation
 
-Scripts to automate quality checks:
+### Pre-commit Hooks
+
+Enforce documentation alongside code — automatically at commit time:
+
+| Tool | What It Does |
+|------|-------------|
+| [Docs Enforcement Hook](./scripts/git-hooks/README.md) | Blocks commits that change code without updating docs in the same scope |
+| [`.pre-commit-config.yaml`](./.pre-commit-config.yaml) | Pre-commit config: docs enforcement + markdownlint + hygiene |
+| [`.markdownlint-cli2.yaml`](./.markdownlint-cli2.yaml) | Markdownlint rules with sensible defaults |
+
+### CI Workflows
+
+Copy to `.github/workflows/` for PR-level validation:
+
+| Workflow | Purpose |
+|----------|---------|
+| [`docs-validation.yml`](./templates/ci-cd/docs-validation.yml) | Frontmatter, structure, links, markdownlint, Vale |
+| [`documentation-check.yml`](./templates/ci-cd/documentation-check.yml) | Scope-aware doc enforcement (code changes need docs) |
+| [`frontmatter-date-check.yml`](./templates/ci-cd/frontmatter-date-check.yml) | Blocks PRs if `last_updated` unchanged |
+| [`freshness-check.yml`](./templates/ci-cd/freshness-check.yml) | Weekly stale doc scan |
+
+### Validation Scripts
 
 | Script | Purpose | Usage |
 |--------|---------|-------|
@@ -152,7 +190,7 @@ Scripts to automate quality checks:
 ## Full Standard List
 
 <details>
-<summary>Click to expand all 40 standards</summary>
+<summary>Click to expand all 45 standards</summary>
 
 | # | Standard | Category |
 |---|----------|----------|
@@ -197,6 +235,11 @@ Scripts to automate quality checks:
 | 38 | [Open Source](./38-OPEN_SOURCE.md) | Specialized |
 | 39 | [Integrations](./39-INTEGRATIONS.md) | Technical |
 | 40 | [Metrics](./40-METRICS.md) | Process |
+| 41 | [Observability](./41-OBSERVABILITY.md) | Technical |
+| 42 | [Architecture](./42-ARCHITECTURE.md) | Technical |
+| 43 | [Configuration & Feature Flags](./43-CONFIGURATION_FLAGS.md) | Technical |
+| 44 | [Error Catalog](./44-ERROR_CATALOG.md) | Technical |
+| 45 | [Monorepo Patterns](./45-MONOREPO_PATTERNS.md) | Technical |
 
 </details>
 
@@ -208,6 +251,7 @@ Scripts to automate quality checks:
 - [CONTRIBUTING.md](./CONTRIBUTING.md) - How to contribute
 - [CHANGELOG.md](./CHANGELOG.md) - Version history
 - [GLOSSARY.md](./GLOSSARY.md) - Terminology definitions
+- [FAQ.md](./FAQ.md) - Frequently asked questions
 
 ---
 

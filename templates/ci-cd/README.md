@@ -41,6 +41,7 @@ cp docs/standards/templates/ci-cd/vale-style.yml .github/workflows/
 | Template | Purpose | Triggers On |
 |----------|---------|-------------|
 | [docs-validation.yml](./docs-validation.yml) | Full documentation validation | PR to docs/ |
+| [documentation-check.yml](./documentation-check.yml) | **Scope-aware doc enforcement** (code changes need docs) | PR/push to main |
 | [frontmatter-date-check.yml](./frontmatter-date-check.yml) | **Block PRs if last_updated not changed** | PR/push with .md changes |
 | [link-checker.yml](./link-checker.yml) | Check for broken links | PR to docs/ |
 | [vale-style.yml](./vale-style.yml) | Vale prose linting | PR to docs/ |
@@ -87,6 +88,19 @@ Standalone link checker using `markdown-link-check`. Configure via `.markdown-li
 
 **Why not require "current date"?** You might work locally for days before pushing - this only checks that you *changed* the date, not that it matches today.
 
+### documentation-check.yml
+
+**Scope-aware documentation enforcement.** Ensures that code changes include documentation updates within the same scope. Uses the shared `doc-enforcement.conf` and `doc-enforcement-lib.sh` from `scripts/git-hooks/`.
+
+| Scenario | Result |
+|----------|--------|
+| Change `services/backend/*.py` only | FAIL — need `.md` in scope |
+| Change `services/backend/*.py` + `services/backend/README.md` | PASS |
+| Change test files only | PASS — tests exempt |
+| Change `.github/` files only | PASS — exempt |
+
+Requires: `scripts/git-hooks/doc-enforcement.conf` and `scripts/git-hooks/doc-enforcement-lib.sh` (see `scripts/git-hooks/README.md` for details).
+
 ### freshness-check.yml
 
 Runs weekly to detect docs that haven't been updated in 90+ days. Customize threshold in the workflow file.
@@ -111,15 +125,24 @@ For full functionality, ensure these exist in your repo:
 your-repo/
 ├── .github/
 │   └── workflows/
-│       └── docs-validation.yml  # ← Copied from templates
-├── docs/
-│   └── standards/
-│       └── scripts/
-│           ├── validate-frontmatter.sh
-│           ├── validate-structure.sh
-│           └── check-freshness.sh
-├── .vale.ini                     # Optional: for style linting
-└── .markdown-link-check.json     # Optional: for link checking
+│       ├── docs-validation.yml       # ← Copied from templates
+│       └── documentation-check.yml   # ← Scope-aware enforcement
+├── scripts/
+│   ├── git-hooks/
+│   │   ├── doc-enforcement.conf      # ← Enforcement config
+│   │   ├── doc-enforcement-lib.sh    # ← Shared logic
+│   │   ├── pre-commit                # ← Hook entrypoint
+│   │   ├── post-commit-audit         # ← Bypass audit
+│   │   ├── install.sh                # ← Hook installer
+│   │   └── README.md                 # ← Documentation
+│   └── docs/
+│       ├── validate-frontmatter.sh
+│       ├── validate-structure.sh
+│       └── check-freshness.sh
+├── .pre-commit-config.yaml           # ← Pre-commit configuration
+├── .markdownlint-cli2.yaml           # ← Markdown linting rules
+├── .vale.ini                         # Optional: for style linting
+└── .markdown-link-check.json         # Optional: for link checking
 ```
 
 ## Customization

@@ -1,0 +1,108 @@
+# ==============================================================================
+# Documentation Enforcement Workflow (active — dogfooding this repo's own tools)
+# ==============================================================================
+#
+# This is the active workflow for the Universal Documentation Standard repo.
+# For the copyable template version, see: templates/ci-cd/documentation-check.yml
+#
+# ==============================================================================
+
+name: Documentation Enforcement
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-documentation:
+    name: Verify Scoped Documentation Updates
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changed-files
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            BASE_REF="${{ github.event.pull_request.base.sha }}"
+          else
+            BASE_REF="${{ github.event.before }}"
+          fi
+
+          CHANGED_FILES=$(git diff --name-only "$BASE_REF" "${{ github.sha }}")
+
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+
+          echo "CHANGED_FILES<<EOF" >> "$GITHUB_ENV"
+          echo "$CHANGED_FILES" >> "$GITHUB_ENV"
+          echo "EOF" >> "$GITHUB_ENV"
+
+          echo "DIFF_BASE_REF=${BASE_REF}" >> "$GITHUB_ENV"
+          echo "DIFF_HEAD_REF=${{ github.sha }}" >> "$GITHUB_ENV"
+
+      - name: Check scoped documentation requirement
+        run: |
+          source scripts/git-hooks/doc-enforcement.conf
+          source scripts/git-hooks/doc-enforcement-lib.sh
+
+          export DIFF_BASE_REF="${DIFF_BASE_REF}"
+          export DIFF_HEAD_REF="${DIFF_HEAD_REF}"
+
+          if validate_scoped_docs "commits" <<< "$CHANGED_FILES"; then
+            if [ "$TOTAL_SOURCE_COUNT" -gt 0 ]; then
+              echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+              echo "DOCUMENTATION CHECK PASSED"
+              echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+              echo "Source files: $TOTAL_SOURCE_COUNT"
+              echo "Documentation files: $TOTAL_DOC_COUNT"
+              if [ "$TOTAL_TEST_COUNT" -gt 0 ]; then
+                echo "Test files (exempt): $TOTAL_TEST_COUNT"
+              fi
+            else
+              echo "No source code changes detected. Documentation check skipped."
+            fi
+            exit 0
+          fi
+
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "DOCUMENTATION CHECK FAILED"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo ""
+          echo "The following scope(s) have source code changes without documentation updates:"
+          echo ""
+
+          for scope in "${UNSATISFIED_SCOPES[@]}"; do
+            echo "Scope: ${scope}"
+            echo "  Source files:"
+            while IFS= read -r sf; do
+              [ -z "$sf" ] && continue
+              echo "    - ${sf}"
+            done <<< "${SCOPE_SOURCE_FILES[$scope]}"
+            echo "  Required: Update or create a .md file within ${scope}"
+            echo ""
+          done
+
+          echo "Repository Policy:"
+          echo "  - Code changes MUST include documentation in the SAME scope"
+          echo "  - Scope = nearest ancestor directory containing README.md"
+          echo "  - Test files are exempt from this requirement"
+          echo ""
+
+          if [ "$DOC_ENFORCEMENT_MODE" == "warn" ]; then
+            echo "WARNING: Enforcement is in advisory mode."
+            exit 0
+          fi
+          exit 1

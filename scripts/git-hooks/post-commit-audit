@@ -1,0 +1,63 @@
+#!/bin/bash
+# Post-commit audit: Log when --no-verify likely bypassed doc enforcement
+#
+# This hook runs after every commit and re-analyzes the committed files
+# using the same shared library as the pre-commit hook. If the commit
+# would have failed enforcement (i.e., was likely made with --no-verify),
+# it appends a structured log line to .git/doc-enforcement-audit.log.
+#
+# The audit log lives in .git/ (not committed, not pushed).
+# Team leads can review it periodically to track bypass patterns.
+#
+# Installed by: scripts/git-hooks/install.sh
+
+# Don't fail the commit if audit logging has an error
+set +e
+
+# ── Resolve script directory and source shared code ──────────────
+# The post-commit hook lives in .git/hooks/, but the lib lives in
+# scripts/git-hooks/. Resolve via repo root.
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"
+if [[ -z "$REPO_ROOT" ]]; then
+  exit 0
+fi
+
+ENFORCEMENT_DIR="${REPO_ROOT}/scripts/git-hooks"
+
+if [[ ! -f "${ENFORCEMENT_DIR}/doc-enforcement.conf" ]] || \
+   [[ ! -f "${ENFORCEMENT_DIR}/doc-enforcement-lib.sh" ]]; then
+  # Shared files not present (maybe a shallow clone or early setup)
+  exit 0
+fi
+
+# shellcheck source=doc-enforcement.conf
+source "${ENFORCEMENT_DIR}/doc-enforcement.conf"
+# shellcheck source=doc-enforcement-lib.sh
+source "${ENFORCEMENT_DIR}/doc-enforcement-lib.sh"
+
+# ── Get files from the last commit ───────────────────────────────
+FILES=$(git diff-tree --no-commit-id --name-only -r HEAD 2>/dev/null)
+
+if [[ -z "$FILES" ]]; then
+  exit 0
+fi
+
+# ── Set diff refs for the library ────────────────────────────────
+export DIFF_BASE_REF="HEAD~1"
+export DIFF_HEAD_REF="HEAD"
+
+# ── Run validation (don't exit on failure — we just log) ─────────
+if ! validate_scoped_docs "commits" <<< "$FILES"; then
+  # This commit would have failed enforcement — log it
+  AUDIT_FILE="${REPO_ROOT}/.git/doc-enforcement-audit.log"
+  COMMIT_SHA=$(git rev-parse --short HEAD 2>/dev/null)
+  AUTHOR=$(git log -1 --format='%an <%ae>' 2>/dev/null)
+  TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null)
+  SCOPES="${UNSATISFIED_SCOPES[*]}"
+
+  {
+    echo "[$TIMESTAMP] BYPASS: commit=$COMMIT_SHA author=\"$AUTHOR\" unsatisfied_scopes=\"$SCOPES\""
+  } >> "$AUDIT_FILE" 2>/dev/null
+fi
+
+exit 0

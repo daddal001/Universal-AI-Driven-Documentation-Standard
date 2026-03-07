@@ -509,6 +509,25 @@ EOF
         chmod +x scripts/docs/*.sh 2>/dev/null || true
     fi
 
+    # Copy documentation enforcement hooks
+    if [[ -d "$SCRIPT_DIR/scripts/git-hooks" ]]; then
+        mkdir -p scripts/git-hooks
+        for hook_file in doc-enforcement.conf doc-enforcement-lib.sh pre-commit post-commit-audit install.sh README.md; do
+            if [[ -f "$SCRIPT_DIR/scripts/git-hooks/$hook_file" ]]; then
+                cp "$SCRIPT_DIR/scripts/git-hooks/$hook_file" "scripts/git-hooks/" 2>/dev/null && print_success "Copied git-hooks/$hook_file" || true
+            fi
+        done
+        chmod +x scripts/git-hooks/*.sh scripts/git-hooks/pre-commit scripts/git-hooks/post-commit-audit 2>/dev/null || true
+    fi
+
+    # Copy pre-commit and markdownlint configs
+    if [[ -f "$SCRIPT_DIR/.pre-commit-config.yaml" ]]; then
+        safe_copy "$SCRIPT_DIR/.pre-commit-config.yaml" ".pre-commit-config.yaml"
+    fi
+    if [[ -f "$SCRIPT_DIR/.markdownlint-cli2.yaml" ]]; then
+        safe_copy "$SCRIPT_DIR/.markdownlint-cli2.yaml" ".markdownlint-cli2.yaml"
+    fi
+
     echo ""
     echo -e "${GREEN}${BOLD}✅ Team documentation setup complete!${NC}"
     echo ""
@@ -519,12 +538,16 @@ EOF
     echo "  • docs/templates/ - Documentation templates"
     echo "  • docs/runbooks/ - Operational runbook templates"
     echo "  • scripts/docs/ - Validation scripts"
+    echo "  • scripts/git-hooks/ - Documentation enforcement hooks"
+    echo "  • .pre-commit-config.yaml - Pre-commit configuration"
+    echo "  • .markdownlint-cli2.yaml - Markdown linting rules"
     echo ""
     echo -e "  ${BOLD}Next steps:${NC}"
     echo "  1. Edit README.md with your project details"
     echo "  2. Customize AGENTS.md with your architecture"
     echo "  3. Copy templates to docs/ and fill them in"
-    echo "  4. Run: bash scripts/docs/validate-frontmatter.sh docs/"
+    echo "  4. Install hooks: bash scripts/git-hooks/install.sh"
+    echo "  5. Run: bash scripts/docs/validate-frontmatter.sh docs/"
     echo ""
     echo -e "  ${CYAN}Need compliance docs? Run: bash docs/standards/init.sh${NC}"
     echo ""
@@ -717,6 +740,7 @@ install_templates() {
         if [[ -d "$TEMPLATES_DIR/ci-cd" ]]; then
             mkdir -p .github/workflows
             safe_copy "$TEMPLATES_DIR/ci-cd/docs-validation.yml" ".github/workflows/docs-validation.yml"
+            safe_copy "$TEMPLATES_DIR/ci-cd/documentation-check.yml" ".github/workflows/documentation-check.yml"
         fi
     fi
 
@@ -869,6 +893,27 @@ copy_scripts() {
         fi
     fi
 
+    # Copy documentation enforcement hooks
+    if [[ -d "$SCRIPT_DIR/scripts/git-hooks" ]]; then
+        echo -e "${BOLD}Setting up documentation enforcement hooks...${NC}"
+        echo ""
+        mkdir -p scripts/git-hooks
+        for hook_file in doc-enforcement.conf doc-enforcement-lib.sh pre-commit post-commit-audit install.sh README.md; do
+            if [[ -f "$SCRIPT_DIR/scripts/git-hooks/$hook_file" ]]; then
+                safe_copy "$SCRIPT_DIR/scripts/git-hooks/$hook_file" "scripts/git-hooks/$hook_file"
+            fi
+        done
+        chmod +x scripts/git-hooks/*.sh scripts/git-hooks/pre-commit scripts/git-hooks/post-commit-audit 2>/dev/null || true
+    fi
+
+    # Copy pre-commit and markdownlint configs
+    if [[ -f "$SCRIPT_DIR/.pre-commit-config.yaml" ]]; then
+        safe_copy "$SCRIPT_DIR/.pre-commit-config.yaml" ".pre-commit-config.yaml"
+    fi
+    if [[ -f "$SCRIPT_DIR/.markdownlint-cli2.yaml" ]]; then
+        safe_copy "$SCRIPT_DIR/.markdownlint-cli2.yaml" ".markdownlint-cli2.yaml"
+    fi
+
     echo ""
 }
 
@@ -882,7 +927,9 @@ print_summary() {
     echo ""
     echo -e "  ${BOLD}Installed:${NC}"
     echo "  • Documentation templates in docs/templates/"
-    [[ "$INSTALL_MODE" != "minimal" ]] && echo "  • CI workflow in .github/workflows/"
+    [[ "$INSTALL_MODE" != "minimal" ]] && echo "  • CI workflows in .github/workflows/"
+    [[ "$INSTALL_MODE" != "minimal" ]] && echo "  • Documentation enforcement hooks in scripts/git-hooks/"
+    [[ "$INSTALL_MODE" != "minimal" ]] && echo "  • Pre-commit + markdownlint configs"
     [[ "$ENABLE_AI" == "true" ]] && echo "  • AI agent files (llms.txt, AGENTS.md)"
     [[ "$INSTALL_MODE" != "minimal" ]] && echo "  • Validation scripts in scripts/docs/"
     echo ""
