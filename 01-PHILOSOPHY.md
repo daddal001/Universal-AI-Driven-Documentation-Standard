@@ -9,6 +9,10 @@ last_updated: "2025-12-13"
 version: "1.1.0"
 ---
 
+<!-- markdownlint-disable MD025 -->
+# Documentation Philosophy
+<!-- markdownlint-enable MD025 -->
+
 > **"High-quality internal documentation leads to 25% higher team performance."** — DORA 2023 Research
 
 This section establishes the foundational principles for documentation excellence, drawing from industry best practices across the world's leading engineering organizations.
@@ -91,7 +95,7 @@ Let's be honest about the real reasons and address each one:
 | **"It gets stale immediately"** | CI blocks PRs if docs don't match code ([scripts/](./scripts/)) |
 | **"I'll remember this"** | Freshness SLAs force review in 90 days ([06-OPERATIONS](./06-OPERATIONS.md)) |
 | **"Writing is hard"** | AI agents draft, humans review ([04-AI_AGENTS](./04-AI_AGENTS.md)) |
-| **"There's no standard"** | You're reading it. 35 standards, one source. |
+| **"There's no standard"** | You're reading it. 40 standards, one source. |
 | **"Management doesn't care"** | Maturity metrics make it visible ([17-MATURITY_MODEL](./17-MATURITY_MODEL.md)) |
 
 **The Core Insight:**

@@ -13,7 +13,7 @@ version: "1.0.0"
 # Documentation Standards Adoption Playbook
 <!-- markdownlint-enable MD025 -->
 
-> **Goal:** A step-by-step guide to adopting these documentation standards, from "zero documentation" to "fully compliant" in 12 weeks.
+> **Goal:** A step-by-step guide to adopting these documentation standards, from "zero documentation" to "full documentation" in 2 weeks.
 
 ---
 

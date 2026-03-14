@@ -1,34 +1,18 @@
----
-title: "Contributing to Documentation"
-type: "guide"
-status: "approved"
-owner: "@documentation-maintainer"
-created: "2025-12-13"
-last_updated: "2025-12-13"
-version: "1.0.0"
----
+# Contributing
 
-# Contributing to Documentation
+## The basics
 
-Guide for contributing to documentation in this repository.
+1. Find the right template in `templates/`
+2. Copy it, fill it in
+3. Run validation: `bash scripts/validate-frontmatter.sh .`
+4. Open a PR
 
----
+That's it for most contributions. Read on if you want the details.
 
-> **Note on Owner References:** Throughout these standards, you will see `@documentation-maintainer` used as an example owner. In your project, replace this with your actual GitHub team handle (e.g., `@backend-team`, `@frontend-leads`) or your username.
+## Templates
 
-## Quick Start
-
-1. **Find the right template** in `templates/`
-2. **Copy and fill** in the template
-3. **Run validation**: `bash scripts/validate-frontmatter.sh .`
-4. **Submit PR** with appropriate labels
-
----
-
-## Templates Available
-
-| Template | Use For |
-|----------|---------|
+| Template | Use for |
+|---|---|
 | `templates/README.md` | Service READMEs |
 | `templates/RUNBOOK.md` | Operational runbooks |
 | `templates/ADR.md` | Architecture decision records |
@@ -36,91 +20,80 @@ Guide for contributing to documentation in this repository.
 | `templates/API_SPEC.yaml` | OpenAPI specifications |
 | `templates/CHANGELOG.md` | Version history |
 
----
+## Style rules
 
-## Review Process
+- **Active voice.** "Run the command" not "The command should be run"
+- **Present tense.** "This function returns" not "This function will return"
+- **Second person.** "You can configure" not "Users can configure"
+- **Define jargon** on first use or link to the [Glossary](GLOSSARY.md)
 
-| Label | Reviewer | Focus |
-|-------|----------|-------|
-| `doc-review-technical` | Subject Matter Expert | Accuracy |
-| `doc-review-audience` | New team member | Clarity |
-| `doc-review-writing` | Tech writer / Vale | Style |
+Full style guide: [11-STYLE_GUIDE.md](11-STYLE_GUIDE.md)
 
-### Review Checklist
-
-Reviewers should verify:
-
-- [ ] Frontmatter is complete and valid
-- [ ] All file paths/links work
-- [ ] Code examples are copy-paste ready
-- [ ] No placeholder text (foo, bar, example)
-- [ ] Follows style guide (active voice, present tense)
-
----
-
-## Style Guide Summary
-
-- **Voice:** Active ("Run the command" not "The command should be run")
-- **Tense:** Present ("This function returns" not "This function will return")
-- **Person:** Second ("You can configure" not "Users can configure")
-- **Jargon:** Define on first use or link to Glossary
-
-> Full style guide: [11-STYLE_GUIDE.md](./11-STYLE_GUIDE.md)
-
----
-
-## Validation Commands
+## Validation
 
 ```bash
-# Run all validations
+# Run everything
 bash scripts/validate-frontmatter.sh .
 bash scripts/validate-structure.sh .
 bash scripts/check-freshness.sh .
 bash scripts/validate-style.sh .
 
-# Check specific file
+# Check a specific file
 bash scripts/validate-frontmatter.sh ./my-document.md
 ```
 
----
+## Review process
 
-## Common Issues
+PRs get reviewed for three things:
 
-| Issue | Solution |
-|-------|----------|
+| Label | Reviewer | What they check |
+|---|---|---|
+| `doc-review-technical` | Subject matter expert | Is it accurate? |
+| `doc-review-audience` | New team member | Is it clear? |
+| `doc-review-writing` | Tech writer / Vale | Is it well-written? |
+
+Before you submit, check these yourself:
+
+- Frontmatter is complete and valid
+- All file paths and links work
+- Code examples are copy-paste ready (not `foo`, `bar`, `example`)
+- Active voice, present tense
+
+## Common issues
+
+| Issue | Fix |
+|---|---|
 | Missing frontmatter | Add YAML block at top of file |
 | Invalid `type` | Use: standard, guide, reference, runbook, tutorial |
 | Invalid `status` | Use: draft, review, approved, stale, deprecated |
-| Broken links | Check file paths, use relative links |
-| Vale errors | Run `vale --config=.vale.ini docs/` |
+| Broken links | Use relative links, check file paths |
+| Vale errors | `vale --config=.vale.ini docs/` |
 
----
+## Types of contributions
 
-## Contributing to the Open Source Standards
+| Type | How |
+|---|---|
+| Bug reports | Open an issue describing the problem |
+| Feature requests | Open an issue with your suggestion |
+| Documentation fixes | Submit a PR with corrections |
+| Translations | Fork and create localised versions |
+| New standards | Open an issue first to discuss scope, then PR |
 
-This documentation standard is open source under CC BY 4.0. We welcome contributions!
+New standards: please open an issue before writing the whole thing. This project is opinionated on purpose — not every standard belongs here, and it's better to discuss fit before you invest the time.
 
-### Types of Contributions
+## PR process
 
-| Type | How to Contribute |
-|------|-------------------|
-| 🐛 **Bug Reports** | Open an issue describing the problem |
-| 💡 **Feature Requests** | Open an issue with your suggestion |
-| 📝 **Documentation Fixes** | Submit a PR with corrections |
-| 🌍 **Translations** | Fork and create localized versions |
-| 🔧 **New Standards** | Propose via issue first, then PR |
+1. Fork the repo
+2. Create a branch (`git checkout -b improve-api-docs`)
+3. Make your changes following the existing style
+4. Run validation (`bash scripts/validate-frontmatter.sh .`)
+5. Open a PR with a clear description of what you changed and why
+6. Respond to feedback
 
-### Pull Request Process
+## Questions?
 
-1. **Fork** the repository
-2. **Create a branch** (`git checkout -b improve-api-docs`)
-3. **Make changes** following existing style
-4. **Run validation** (`bash scripts/validate-frontmatter.sh .`)
-5. **Submit PR** with clear description
-6. **Respond to feedback**
+- [Open an issue](../../issues)
+- [Start a discussion](../../discussions)
+- [Browse the full standards index](INDEX.md)
 
-### Questions?
-
-- **GitHub Issues:** [Open an issue](../../issues)
-- **Discussions:** [Start a discussion](../../discussions)
-- **Full Standards:** See [INDEX.md](./INDEX.md)
+> **Note:** Throughout these standards, `@documentation-maintainer` is used as a placeholder owner. Replace it with your actual GitHub team handle (e.g., `@backend-team`) or your username.
