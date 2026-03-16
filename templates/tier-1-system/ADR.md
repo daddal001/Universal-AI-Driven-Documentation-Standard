@@ -1,8 +1,8 @@
 ---
 title: "ADR-[NUMBER]: [TITLE]"
 type: "adr"
-status: "[proposed | accepted | deprecated | superseded | implemented]"
-owner: "@architecture-team"
+status: "[proposed | accepted | deprecated | superseded | implemented | rejected]"
+owner: "@team-name"
 classification: "internal"
 created: "[YYYY-MM-DD]"
 last_updated: "[YYYY-MM-DD]"
@@ -22,48 +22,51 @@ review_date: "[YYYY-MM-DD]"         # 6-12 months from decision_date
 
 # ADR-[NUMBER]: [TITLE]
 
-This decision record documents the choice of [technology/approach] for [component/system]. It affects engineers working on [affected areas] and should be reviewed on [review_date] or when assumptions change.
+This decision record documents the choice of [technology/approach] for [component/system]. It affects engineers working on [affected areas]. Review on [review_date] or when assumptions change.
 
-**Status:** [proposed | accepted | deprecated | superseded | implemented]
+**Status:** [proposed | accepted | deprecated | superseded | implemented | rejected]
 **Date:** [YYYY-MM-DD]
-**Decision Makers:** [@username1, @username2]
+**Decision makers:** [@username1, @username2]
 
 ---
 
 ## Context
 
-[Describe the issue motivating this decision. What is the problem we're solving? Include business requirements, technical constraints, and forces at play. Use value-neutral language.]
+[What's the problem you're solving? Describe the business requirements, technical constraints, and forces at play. State facts, not opinions.]
 
-## Decision Drivers
+## Decision drivers
 
 - [Driver 1: e.g., performance requirements]
 - [Driver 2: e.g., team expertise]
 - [Driver 3: e.g., cost constraints]
 - [Driver 4: e.g., compliance requirements]
 
-## Considered Options
+## Considered options
 
 ### Option 1: [Name]
 
 - **Pros:** [List advantages]
-- **Cons:** [List disadvantages]
-- **Estimated Effort:** [Low/Medium/High]
+- **Cons:** [List disadvantages — don't hide them]
+- **Estimated effort:** [Low/Medium/High]
+- **Evidence:** [Benchmarks, vendor docs, or team experience]
 
 ### Option 2: [Name]
 
 - **Pros:** [List advantages]
 - **Cons:** [List disadvantages]
-- **Estimated Effort:** [Low/Medium/High]
+- **Estimated effort:** [Low/Medium/High]
+- **Evidence:** [Benchmarks, vendor docs, or team experience]
 
 ### Option 3: [Name]
 
 - **Pros:** [List advantages]
 - **Cons:** [List disadvantages]
-- **Estimated Effort:** [Low/Medium/High]
+- **Estimated effort:** [Low/Medium/High]
+- **Evidence:** [Benchmarks, vendor docs, or team experience]
 
 ## Decision
 
-[State the decision and rationale. Why was this option chosen over the alternatives? Use active voice: "We will..."]
+[State the decision and rationale. Why this option over the alternatives? Use active voice: "We chose X because..."]
 
 ## Consequences
 
@@ -74,8 +77,8 @@ This decision record documents the choice of [technology/approach] for [componen
 
 ### Negative
 
-- [Negative consequence 1]
-- [Mitigation strategy]
+- [Negative consequence 1 — every decision has trade-offs. If you can't name one, you haven't thought hard enough]
+- [Mitigation for the above]
 
 ### Risks
 
@@ -84,22 +87,22 @@ This decision record documents the choice of [technology/approach] for [componen
 
 ---
 
-## Assumptions
+## Y-statement
 
-<!-- RECOMMENDED for all ADRs. REQUIRED for P0/P1 decisions. -->
-<!-- "What could cause problems if untrue now or later?" -->
+> In the context of [use case/component], facing [concern/requirement], we decided for [chosen option] and against [rejected options], to achieve [quality goal/benefit], accepting that [trade-off/downside].
+
+---
+
+## Assumptions
 
 | # | Assumption | Impact if Wrong | Monitoring |
 |---|-----------|-----------------|------------|
-| 1 | [Assumption 1] | [What breaks] | [How we detect it] |
-| 2 | [Assumption 2] | [What breaks] | [How we detect it] |
+| 1 | [Assumption 1] | [What breaks] | [How you detect it] |
+| 2 | [Assumption 2] | [What breaks] | [How you detect it] |
 
 ---
 
 ## Confirmation
-
-<!-- RECOMMENDED for all ADRs. REQUIRED for P0/P1 decisions. -->
-<!-- "How will we verify this decision is working?" -->
 
 Compliance with this ADR is confirmed by:
 
@@ -109,21 +112,37 @@ Compliance with this ADR is confirmed by:
 
 ---
 
-## Compliance Mapping
+## Service impact diagram
 
-<!-- RECOMMENDED when the decision implements security or compliance controls. -->
-<!-- Delete this section if not applicable. -->
+```mermaid
+graph TB
+    subgraph "Affected Services"
+        SVC1["[Service 1]"]
+        SVC2["[Service 2]"]
+        SVC3["[Service 3]"]
+    end
+
+    ADR["This ADR"] --> SVC1
+    ADR --> SVC2
+    ADR --> SVC3
+```
+
+---
+
+## Compliance mapping
+
+<!-- Map to any compliance framework relevant to your project. -->
+<!-- If no compliance framework applies, state "N/A — no compliance implications." -->
 
 | Framework | Control | How This ADR Addresses It |
 |-----------|---------|--------------------------|
-| [ISO 27001] | [A.X.Y — Control name] | [How this decision satisfies the control] |
-| [SOC 2] | [CCX.Y — Control name] | [How this decision satisfies the control] |
+| [e.g., ISO 27001, SOC 2, GDPR, PCI-DSS, HIPAA, FedRAMP] | [Control ID — Control name] | [How this decision satisfies the control] |
 
 ---
 
 ## References
 
-**REQUIRED:** List all external sources that informed this decision (minimum 2-3):
+External sources that informed this decision (minimum 2–3):
 
 | # | Source | Type | URL |
 |---|--------|------|-----|
@@ -133,7 +152,7 @@ Compliance with this ADR is confirmed by:
 
 *Source types: Standard, Best Practice, Benchmark, Vendor Docs, Research, Internal*
 
-## Related Documents
+## Related documents
 
 - [Link to related ADRs]
 - [Link to implementation PRs]

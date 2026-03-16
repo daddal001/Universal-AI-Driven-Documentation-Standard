@@ -20,9 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- `43-CONFIGURATION_FLAGS.md` — Configuration & Feature Flags Standard
-- `44-ERROR_CATALOG.md` — Error Catalog Standard (error code registry, format, namespacing)
-- `45-MONOREPO_PATTERNS.md` — Monorepo Documentation Patterns (workspace docs, per-package READMEs)
+- `45-CONFIGURATION_FLAGS.md` — Configuration & Feature Flags Standard
+- `46-ERROR_CATALOG.md` — Error Catalog Standard (error code registry, format, namespacing)
+- `47-MONOREPO_PATTERNS.md` — Monorepo Documentation Patterns (workspace docs, per-package READMEs)
 - `templates/tier-1-system/CONFIGURATION.md` — Configuration reference template
 - `templates/tier-1-system/ERROR_CATALOG.md` — Error catalog template
 - `examples/example-configuration.md` — Configuration reference example
@@ -40,7 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Expanded `12-REVIEWS.md` — Review checklist, SLAs, escalation path, anti-patterns, CODEOWNERS
 - Updated `INDEX.md` standard count to 45, added new standards to full list
 - Updated `README.md` — highlighted pre-commit hooks and CI workflows as key features
-- Updated `templates/tier-1-system/ARCHITECTURE.md` — aligned with 42-ARCHITECTURE.md (8 required sections, C4, cross-cutting concerns)
+- Updated `templates/tier-1-system/ARCHITECTURE.md` — aligned with 44-ARCHITECTURE.md (8 required sections, C4, cross-cutting concerns)
 - Updated `examples/example-architecture.md` — added cross-cutting concerns, security boundaries, observability, error handling
 - Updated `examples/README.md` — organized into categories, added all 19 examples
 - Updated `templates/README.md` — added hooks, CI workflows, config files sections
@@ -54,8 +54,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- `41-OBSERVABILITY.md` — Observability Standard (logging, tracing, metrics)
-- `42-ARCHITECTURE.md` — Architecture Documentation Standard (C4, arc42, ISO 42010)
+- `43-OBSERVABILITY.md` — Observability Standard (logging, tracing, metrics)
+- `44-ARCHITECTURE.md` — Architecture Documentation Standard (C4, arc42, ISO 42010)
 - `examples/example-architecture.md` — Architecture documentation example (moved from root)
 
 ### Changed

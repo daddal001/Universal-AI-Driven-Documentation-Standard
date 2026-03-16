@@ -12,7 +12,7 @@ version: "1.0.0"
 # Security & Compliance Documentation
 
 > 💡 **Open Source Projects:** This standard is optional for most OSS projects.
-> See [36-CONTEXT_GUIDANCE](./36-CONTEXT_GUIDANCE.md) for what you actually need.
+> See [38-CONTEXT_GUIDANCE](./38-CONTEXT_GUIDANCE.md) for what you actually need.
 
 > **Goal:** Ensure documentation itself doesn't become a security risk while enabling compliance traceability for audits.
 
@@ -635,7 +635,7 @@ token={refresh_token}
 | [Database Documentation](./19-DATABASE_DOCUMENTATION.md) | Data classification |
 | [Governance](./07-GOVERNANCE.md) | Document ownership |
 | [Operations](./06-OPERATIONS.md) | Incident documentation |
-| [36-CONTEXT_GUIDANCE](./36-CONTEXT_GUIDANCE.md) | Enterprise-specific guidance |
+| [38-CONTEXT_GUIDANCE](./38-CONTEXT_GUIDANCE.md) | Enterprise-specific guidance |
 | [example-enterprise-compliance.md](./examples/example-enterprise-compliance.md) | Compliance documentation example |
 
 ---

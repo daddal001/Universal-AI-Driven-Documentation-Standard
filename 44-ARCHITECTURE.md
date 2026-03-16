@@ -457,24 +457,24 @@ Common architecture documentation mistakes and how to fix them:
 | [Security & Compliance](./24-SECURITY_COMPLIANCE.md) | Compliance documentation requirements |
 | [Service Catalog](./21-SERVICE_CATALOG.md) | Individual service documentation |
 | [Infrastructure Code](./25-INFRASTRUCTURE_CODE.md) | IaC documentation for deployment views |
-| [Observability](./41-OBSERVABILITY.md) | Logging, tracing, metrics standards |
+| [Observability](./43-OBSERVABILITY.md) | Logging, tracing, metrics standards |
 
 ### External References
 
 | # | Source | Type | URL |
 |---|--------|------|-----|
-| 1 | C4 Model (Simon Brown) | Best Practice | https://c4model.com |
-| 2 | arc42 Template (Starke, Hruschka) | Best Practice | https://arc42.org |
-| 3 | ISO/IEC/IEEE 42010:2022 | Standard | https://www.iso.org/standard/74393.html |
+| 1 | C4 Model (Simon Brown) | Best Practice | <https://c4model.com> |
+| 2 | arc42 Template (Starke, Hruschka) | Best Practice | <https://arc42.org> |
+| 3 | ISO/IEC/IEEE 42010:2022 | Standard | <https://www.iso.org/standard/74393.html> |
 | 4 | 4+1 View Model (Kruchten 1995) | Research | IEEE Software 12(6), November 1995 |
 | 5 | Building Evolutionary Architectures | Research | O'Reilly (Ford, Parsons, Kua) |
-| 6 | NIST SP 800-207: Zero Trust Architecture | Standard | https://csrc.nist.gov/publications/detail/sp/800-207/final |
-| 7 | OWASP Threat Modeling | Best Practice | https://owasp.org/www-community/Threat_Modeling |
-| 8 | Structurizr DSL | Vendor Docs | https://docs.structurizr.com/dsl |
-| 9 | ATAM (SEI/CMU) | Best Practice | https://www.sei.cmu.edu/architecture-tradeoff-analysis-method/ |
-| 10 | Google Design Docs | Best Practice | https://www.industrialempathy.com/posts/design-docs-at-google/ |
+| 6 | NIST SP 800-207: Zero Trust Architecture | Standard | <https://csrc.nist.gov/publications/detail/sp/800-207/final> |
+| 7 | OWASP Threat Modeling | Best Practice | <https://owasp.org/www-community/Threat_Modeling> |
+| 8 | Structurizr DSL | Vendor Docs | <https://docs.structurizr.com/dsl> |
+| 9 | ATAM (SEI/CMU) | Best Practice | <https://www.sei.cmu.edu/architecture-tradeoff-analysis-method/> |
+| 10 | Google Design Docs | Best Practice | <https://www.industrialempathy.com/posts/design-docs-at-google/> |
 
 ---
 
-**Previous:** [41 - Observability](./41-OBSERVABILITY.md)
-**Next:** [43 - Configuration & Feature Flags](./43-CONFIGURATION_FLAGS.md)
+**Previous:** [43 - Observability](./43-OBSERVABILITY.md)
+**Next:** [45 - Configuration & Feature Flags](./45-CONFIGURATION_FLAGS.md)

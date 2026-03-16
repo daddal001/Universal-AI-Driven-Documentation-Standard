@@ -210,7 +210,7 @@ graph LR
 | [Error Catalog](../errors/) | Error code reference |
 
 <!--
-Scaling guide (from 42-ARCHITECTURE.md standard):
+Scaling guide (from 44-ARCHITECTURE.md standard):
 - Solo/OSS: Sections 1, 2, 4 only (Overview + Context diagram + Components)
 - Team/Startup: All sections, C4 Levels 1-2, key ADRs
 - Enterprise: All sections + compliance mapping + fitness functions

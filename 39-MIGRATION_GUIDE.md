@@ -238,7 +238,7 @@ wc -l docs-inventory.txt
 1. WtD is philosophy-compatible
 2. Add structured standards and templates
 3. Implement validation automation
-4. Add metrics tracking ([40-METRICS.md](./40-METRICS.md))
+4. Add metrics tracking ([42-METRICS.md](./42-METRICS.md))
 
 ### From Divio Documentation System
 
@@ -716,7 +716,7 @@ grep -r "TODO\|FIXME\|example\.com" docs/
 
 - [00-ADOPTION_PLAYBOOK.md](./00-ADOPTION_PLAYBOOK.md) - 12-week adoption plan
 - [05-QUALITY.md](./05-QUALITY.md) - Quality criteria for validation
-- [40-METRICS.md](./40-METRICS.md) - Metrics to track success
+- [42-METRICS.md](./42-METRICS.md) - Metrics to track success
 
-**Previous:** [36 - Context Guidance](./36-CONTEXT_GUIDANCE.md)
-**Next:** [38 - Open Source](./38-OPEN_SOURCE.md)
+**Previous:** [38 - Context Guidance](./38-CONTEXT_GUIDANCE.md)
+**Next:** [40 - Open Source](./40-OPEN_SOURCE.md)

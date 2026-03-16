@@ -24,7 +24,8 @@ config:
   MD024: false
 
   # MD036 - Emphasis used instead of heading
-  # Disabled: Sometimes stylistic emphasis is intentional
+  # Disabled: Too many false positives (bold terms, definitions). Bold-as-heading
+  # is still a mistake per our style guide (section 8) — catch it in review.
   MD036: false
 
   # MD040 - Fenced code blocks should have a language
@@ -40,7 +41,8 @@ config:
   MD028: false
 
   # MD059 - Descriptive link text
-  # Disabled: "here" and similar link texts are sometimes appropriate
+  # Disabled: Too many false positives on short but valid link text. "Click here"
+  # is still a mistake per our style guide (section 8) — catch it in review.
   MD059: false
 
   # MD003 - Heading style

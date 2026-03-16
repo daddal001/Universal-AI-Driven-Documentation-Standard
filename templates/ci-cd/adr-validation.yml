@@ -1,0 +1,312 @@
+# ==============================================================================
+# ADR Validation Workflow
+# ==============================================================================
+#
+# TRIGGERS:
+#   - Pull requests affecting ADR files
+#   - Weekly schedule to check review dates
+#
+# WHAT IT DOES:
+#   1. Validates ADR frontmatter (all required fields present)
+#   2. Validates ADR structure (all 12 required sections present)
+#   3. Checks review_date freshness (flags overdue ADRs)
+#   4. Validates decision linking (supersedes/superseded_by consistency)
+#
+# CUSTOMIZATION:
+#   - Adjust ADR_DIRS to match your ADR locations
+#   - Adjust REVIEW_OVERDUE_DAYS threshold (default: 30 days past review_date)
+#
+# ==============================================================================
+
+name: ADR Validation
+
+on:
+  pull_request:
+    paths:
+      - 'docs/architecture/decisions/**'
+      - 'services/*/docs/adr/**'
+  schedule:
+    - cron: '0 9 * * 1'  # Weekly on Monday at 9 AM
+  workflow_dispatch:
+
+env:
+  ADR_DIRS: "docs/architecture/decisions services/*/docs/adr"
+  REVIEW_OVERDUE_DAYS: 30
+
+jobs:
+  validate-adr-frontmatter:
+    name: Validate ADR Frontmatter
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate ADR frontmatter fields
+        run: |
+          ERRORS=0
+
+          REQUIRED_FIELDS=(
+            "title"
+            "type"
+            "status"
+            "owner"
+            "classification"
+            "created"
+            "last_updated"
+            "version"
+            "decision_date"
+            "decision_makers"
+          )
+
+          # Find changed ADR files in this PR
+          CHANGED_FILES=$(git diff --name-only --diff-filter=ACMR origin/${{ github.base_ref }}...HEAD | grep -E '\.md$' || true)
+
+          for file in $CHANGED_FILES; do
+            # Only check files in ADR directories
+            if ! echo "$file" | grep -qE '(docs/architecture/decisions|docs/adr)/'; then
+              continue
+            fi
+
+            # Skip INDEX.md and README.md
+            if echo "$file" | grep -qiE '(INDEX|README)\.md$'; then
+              continue
+            fi
+
+            echo "Checking: $file"
+
+            # Check type field is "adr"
+            TYPE=$(grep -m1 '^type:' "$file" | sed 's/type:[[:space:]]*//' | tr -d '"' || echo "")
+            if [ "$TYPE" != "adr" ]; then
+              echo "  SKIP: Not an ADR (type: $TYPE)"
+              continue
+            fi
+
+            for field in "${REQUIRED_FIELDS[@]}"; do
+              if ! grep -q "^${field}:" "$file"; then
+                echo "  ❌ Missing required field: $field"
+                ERRORS=$((ERRORS + 1))
+              fi
+            done
+
+            # Check status is a valid value
+            STATUS=$(grep -m1 '^status:' "$file" | sed 's/status:[[:space:]]*//' | tr -d '"' || echo "")
+            case "$STATUS" in
+              proposed|accepted|rejected|implemented|deprecated|superseded) ;;
+              *) echo "  ❌ Invalid status: '$STATUS' (must be: proposed, accepted, rejected, implemented, deprecated, superseded)"
+                 ERRORS=$((ERRORS + 1)) ;;
+            esac
+
+            echo "  ✅ Frontmatter OK"
+          done
+
+          if [ "$ERRORS" -gt 0 ]; then
+            echo ""
+            echo "❌ $ERRORS frontmatter error(s) found"
+            exit 1
+          fi
+
+          echo ""
+          echo "✅ All ADR frontmatter valid"
+
+  validate-adr-structure:
+    name: Validate ADR Structure
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate ADR required sections
+        run: |
+          ERRORS=0
+
+          REQUIRED_SECTIONS=(
+            "Context"
+            "Decision Drivers"
+            "Considered Options"
+            "Decision"
+            "Consequences"
+            "Y-Statement"
+            "Assumptions"
+            "Confirmation"
+            "Service Impact Diagram"
+            "Compliance Mapping"
+            "References"
+            "Related Documents"
+          )
+
+          # Find changed ADR files in this PR
+          CHANGED_FILES=$(git diff --name-only --diff-filter=ACMR origin/${{ github.base_ref }}...HEAD | grep -E '\.md$' || true)
+
+          for file in $CHANGED_FILES; do
+            # Only check files in ADR directories
+            if ! echo "$file" | grep -qE '(docs/architecture/decisions|docs/adr)/'; then
+              continue
+            fi
+
+            # Skip INDEX.md and README.md
+            if echo "$file" | grep -qiE '(INDEX|README)\.md$'; then
+              continue
+            fi
+
+            # Check type field is "adr"
+            TYPE=$(grep -m1 '^type:' "$file" | sed 's/type:[[:space:]]*//' | tr -d '"' || echo "")
+            if [ "$TYPE" != "adr" ]; then
+              continue
+            fi
+
+            echo "Checking sections: $file"
+
+            for section in "${REQUIRED_SECTIONS[@]}"; do
+              if ! grep -qi "^##.*${section}" "$file"; then
+                echo "  ❌ Missing required section: $section"
+                ERRORS=$((ERRORS + 1))
+              fi
+            done
+
+            # Check minimum references (2-3 required)
+            REF_COUNT=$(grep -c '|.*|.*|.*http' "$file" 2>/dev/null || echo "0")
+            if [ "$REF_COUNT" -lt 2 ]; then
+              echo "  ❌ References section has fewer than 2 sources ($REF_COUNT found, minimum 2 required)"
+              ERRORS=$((ERRORS + 1))
+            fi
+
+            echo "  ✅ Structure OK"
+          done
+
+          if [ "$ERRORS" -gt 0 ]; then
+            echo ""
+            echo "❌ $ERRORS structure error(s) found"
+            exit 1
+          fi
+
+          echo ""
+          echo "✅ All ADR structures valid"
+
+  check-adr-review-dates:
+    name: Check ADR Review Dates
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Flag overdue ADR reviews
+        run: |
+          echo "Checking for ADRs past their review_date..."
+          echo ""
+
+          TODAY=$(date +%s)
+          OVERDUE=0
+          UPCOMING=0
+
+          for dir in docs/architecture/decisions services/*/docs/adr; do
+            [ -d "$dir" ] || continue
+
+            find "$dir" -name "*.md" ! -name "INDEX.md" ! -name "README.md" | while read file; do
+              # Only check accepted or implemented ADRs
+              STATUS=$(grep -m1 '^status:' "$file" | sed 's/status:[[:space:]]*//' | tr -d '"' || echo "")
+              if [ "$STATUS" != "accepted" ] && [ "$STATUS" != "implemented" ]; then
+                continue
+              fi
+
+              REVIEW_DATE=$(grep -m1 '^review_date:' "$file" | sed 's/review_date:[[:space:]]*//' | tr -d '"' || echo "")
+
+              if [ -z "$REVIEW_DATE" ]; then
+                echo "⚠️  NO REVIEW DATE: $file (status: $STATUS)"
+                continue
+              fi
+
+              # Parse date (works on both GNU and BSD date)
+              REVIEW_TS=$(date -d "$REVIEW_DATE" +%s 2>/dev/null || date -j -f "%Y-%m-%d" "$REVIEW_DATE" +%s 2>/dev/null || echo "0")
+
+              if [ "$REVIEW_TS" = "0" ]; then
+                echo "⚠️  INVALID DATE: $file (review_date: $REVIEW_DATE)"
+                continue
+              fi
+
+              DAYS_UNTIL=$(( (REVIEW_TS - TODAY) / 86400 ))
+
+              if [ "$DAYS_UNTIL" -lt "-${REVIEW_OVERDUE_DAYS}" ]; then
+                DAYS_OVERDUE=$(( DAYS_UNTIL * -1 ))
+                echo "❌ OVERDUE ($DAYS_OVERDUE days past review): $file"
+                echo "   review_date: $REVIEW_DATE | status: $STATUS"
+                OVERDUE=$((OVERDUE + 1))
+              elif [ "$DAYS_UNTIL" -lt 0 ]; then
+                DAYS_PAST=$(( DAYS_UNTIL * -1 ))
+                echo "⚠️  REVIEW DUE ($DAYS_PAST days ago): $file"
+                echo "   review_date: $REVIEW_DATE | status: $STATUS"
+              elif [ "$DAYS_UNTIL" -lt 30 ]; then
+                echo "📅 UPCOMING (in $DAYS_UNTIL days): $file"
+                echo "   review_date: $REVIEW_DATE | status: $STATUS"
+                UPCOMING=$((UPCOMING + 1))
+              fi
+            done
+          done
+
+          echo ""
+          echo "Summary: $OVERDUE critically overdue, $UPCOMING upcoming in next 30 days"
+
+          # Fail if any ADRs are critically overdue
+          if [ "$OVERDUE" -gt 0 ]; then
+            echo ""
+            echo "❌ $OVERDUE ADR(s) are critically overdue for review"
+            exit 1
+          fi
+
+  check-decision-linking:
+    name: Validate Decision Linking
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check supersedes/superseded_by consistency
+        run: |
+          ERRORS=0
+
+          for dir in docs/architecture/decisions services/*/docs/adr; do
+            [ -d "$dir" ] || continue
+
+            find "$dir" -name "*.md" ! -name "INDEX.md" ! -name "README.md" | while read file; do
+              # Check if this ADR supersedes another
+              SUPERSEDES=$(grep -m1 '^supersedes:' "$file" | sed 's/supersedes:[[:space:]]*//' | tr -d '"' || echo "")
+
+              if [ -n "$SUPERSEDES" ]; then
+                # Find the old ADR file
+                OLD_ADR=$(find "$dir" -name "${SUPERSEDES}-*.md" 2>/dev/null | head -1)
+
+                if [ -z "$OLD_ADR" ]; then
+                  echo "⚠️  $file supersedes $SUPERSEDES but file not found in $dir"
+                  continue
+                fi
+
+                # Check the old ADR has superseded_by pointing back
+                OLD_STATUS=$(grep -m1 '^status:' "$OLD_ADR" | sed 's/status:[[:space:]]*//' | tr -d '"' || echo "")
+                SUPERSEDED_BY=$(grep -m1 '^superseded_by:' "$OLD_ADR" | sed 's/superseded_by:[[:space:]]*//' | tr -d '"' || echo "")
+
+                if [ "$OLD_STATUS" != "superseded" ]; then
+                  echo "❌ $OLD_ADR should have status: superseded (currently: $OLD_STATUS)"
+                  echo "   Referenced by: $file (supersedes: $SUPERSEDES)"
+                  ERRORS=$((ERRORS + 1))
+                fi
+
+                # Extract ADR number from current file
+                CURRENT_NUM=$(basename "$file" | grep -oE '^[0-9]+' || echo "")
+                if [ -n "$SUPERSEDED_BY" ] && [ "$SUPERSEDED_BY" != "$CURRENT_NUM" ]; then
+                  echo "❌ $OLD_ADR has superseded_by: $SUPERSEDED_BY but should be $CURRENT_NUM"
+                  ERRORS=$((ERRORS + 1))
+                fi
+              fi
+            done
+          done
+
+          if [ "$ERRORS" -gt 0 ]; then
+            echo ""
+            echo "❌ $ERRORS decision linking error(s) found"
+            exit 1
+          fi
+
+          echo "✅ Decision linking is consistent"

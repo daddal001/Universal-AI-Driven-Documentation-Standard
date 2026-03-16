@@ -5,8 +5,8 @@ status: "accepted"
 classification: "public"
 owner: "@payments-team"
 created: "2025-03-15"
-last_updated: "2026-03-04"
-version: "2.0.0"
+last_updated: "2026-03-15"
+version: "3.0.0"
 decision_date: "2025-03-20"
 decision_makers:
   - "@cto"
@@ -20,29 +20,29 @@ related_to:
 
 # ADR-012: Use Stripe as Primary Payment Processor
 
-This decision record documents the choice of payment processor for the platform's billing system. It affects the payments team, frontend checkout flows, and finance reporting. Should be reviewed on 2025-09-20 or when transaction volume exceeds 100K/month.
+This decision record documents the choice of payment processor for the platform's billing system. It affects the payments team, frontend checkout flows, and finance reporting. Review on 2025-09-20 or when transaction volume exceeds 100K/month.
 
 **Status:** Accepted — Implemented in Q2 2025
 **Date:** 2025-03-20
-**Decision Makers:** @cto, @payments-tech-lead, @finance-director
+**Decision makers:** @cto, @payments-tech-lead, @finance-director
 
 ---
 
 ## Context
 
-### Problem Statement
+### Problem statement
 
 Our current payment processor (PaymentCo Legacy) has several limitations:
 
 1. **Uptime issues** — 3 outages in the past 6 months (totaling 8 hours)
-2. **Limited global coverage** — Only supports 12 countries
-3. **No fraud protection** — Requires separate integration
+2. **Limited global coverage** — only supports 12 countries
+3. **No fraud protection** — requires separate integration
 4. **Outdated API** — SOAP-based, no webhooks
-5. **Contract renewal** — Current contract expires June 2025
+5. **Contract renewal** — current contract expires June 2025
 
-We need to select a new primary payment processor that supports our growth plans (expanding to EU, APAC) while improving reliability.
+We need a new primary payment processor that supports our growth plans (expanding to EU, APAC) while improving reliability.
 
-### Business Requirements
+### Business requirements
 
 | Requirement | Priority | PaymentCo | Stripe | Adyen |
 |-------------|----------|-----------|--------|-------|
@@ -54,7 +54,7 @@ We need to select a new primary payment processor that supports our growth plans
 | Setup time < 3 months | Must Have | N/A | Yes | No (6 mo) |
 | Transaction fee < 3% | Should Have | 2.5% | 2.9% | 2.7% |
 
-## Decision Drivers
+## Decision drivers
 
 - 99.99% uptime SLA required for PCI-DSS Level 1 compliance
 - EU expansion to 20 countries by Q4 2025
@@ -62,29 +62,32 @@ We need to select a new primary payment processor that supports our growth plans
 - REST API with webhooks for event-driven architecture
 - Integration timeline < 3 months before contract expiry
 
-## Considered Options
+## Considered options
 
-### Option 1: Adyen Only
+### Option 1: Adyen only
 
 - **Pros:** Better EU coverage, lower fees (2.7%), strong enterprise support
 - **Cons:** 6-month setup time (misses contract expiry), complex onboarding
-- **Estimated Effort:** High (6 months)
+- **Estimated effort:** High (6 months)
+- **Evidence:** Adyen's own [integration timeline estimates](https://docs.adyen.com/development-resources/) confirm 4-6 month onboarding for new merchants
 
-### Option 2: Stripe as Primary + Adyen Fallback
+### Option 2: Stripe as primary + Adyen fallback
 
-- **Pros:** Fast setup (6 weeks), best DX, built-in fraud (Radar), dual-processor resilience
+- **Pros:** Fast setup (6 weeks), best developer experience, built-in fraud (Radar), dual-processor resilience
 - **Cons:** Higher fees (2.9%), Stripe-specific feature lock-in, dual integration complexity
-- **Estimated Effort:** Medium (8 weeks for both)
+- **Estimated effort:** Medium (8 weeks for both)
+- **Evidence:** Stripe's [quick start guide](https://stripe.com/docs/development/quickstart) confirms 1-2 week basic integration; our team completed a proof-of-concept in 3 days
 
 ### Option 3: Renew PaymentCo Legacy
 
 - **Pros:** Zero migration effort, known system
 - **Cons:** Same uptime issues, no EU expansion, no fraud protection, SOAP API
-- **Estimated Effort:** Low (contract only)
+- **Estimated effort:** Low (contract only)
+- **Evidence:** PaymentCo's incident history over the past 6 months — 3 outages, 8 hours total downtime
 
 ## Decision
 
-**We will use Stripe as our primary payment processor, with Adyen as a fallback.**
+**We chose Stripe as the primary payment processor, with Adyen as a fallback.**
 
 ### Architecture
 
@@ -105,11 +108,11 @@ graph TB
     CB -->|Adyen API| AE[Adyen]
 ```
 
-### Implementation Details
+### Implementation details
 
-1. **Stripe as Primary (95% of traffic):** Lower fees for US transactions, better developer experience, faster integration timeline
-2. **Adyen as Fallback (5% of traffic + failover):** Better EU coverage, used when Stripe is unavailable, 5% always routed for health checks
-3. **Circuit Breaker Pattern:** Automatic failover when Stripe error rate > 10%, manual override via feature flag
+1. **Stripe as primary (95% of traffic):** Lower fees for US transactions, better developer experience, faster integration timeline
+2. **Adyen as fallback (5% of traffic + failover):** Better EU coverage, used when Stripe is unavailable, 5% always routed for health checks
+3. **Circuit breaker pattern:** Automatic failover when Stripe error rate > 10%, manual override via feature flag
 
 ## Consequences
 
@@ -117,7 +120,7 @@ graph TB
 
 - **Improved reliability:** Dual-processor architecture eliminates single point of failure
 - **Faster time-to-market:** Stripe integration complete in 6 weeks vs. 6 months for Adyen-only
-- **Better DX:** Modern REST API, excellent documentation, SDKs maintained by Stripe
+- **Better developer experience:** Modern REST API, excellent documentation, SDKs maintained by Stripe
 - **Built-in fraud:** Stripe Radar reduces fraud by estimated 40%
 - **Global expansion:** Supports all 35 target countries
 
@@ -129,9 +132,15 @@ graph TB
 
 ### Risks
 
-- **Stripe pricing increase:** Mitigated by Adyen fallback — can shift traffic if Stripe raises rates
+- **Stripe pricing increase:** Mitigated by Adyen fallback — we can shift traffic if Stripe raises rates
 - **Adyen integration rot:** Mitigated by always routing 5% of traffic through Adyen for continuous testing
-- **PCI scope creep:** Mitigated by using Stripe.js / Adyen Drop-in for card data — we remain out of PCI scope
+- **PCI scope creep:** Mitigated by using Stripe.js / Adyen Drop-in for card data — we stay out of PCI scope
+
+---
+
+## Y-statement
+
+> In the context of the platform's billing system, facing contract expiry, uptime requirements, and EU expansion deadlines, we decided for Stripe as primary with Adyen fallback and against Adyen-only or renewing PaymentCo Legacy, to achieve 99.99% uptime, sub-3-month integration, and built-in fraud detection, accepting that we pay higher transaction fees (2.9% vs 2.5%) and take on dual-integration complexity.
 
 ---
 
@@ -158,7 +167,39 @@ Compliance with this ADR is confirmed by:
 
 ---
 
-## Compliance Mapping
+## Service impact diagram
+
+```mermaid
+graph TB
+    subgraph "Architecture Decisions"
+        ADR012["ADR-012<br/>Stripe + Adyen"]
+    end
+
+    subgraph "Affected Services"
+        PAY["Payment Service"]
+        CHECKOUT["Checkout Frontend"]
+        GATEWAY["API Gateway"]
+        BILLING["Billing Service"]
+        FINANCE["Finance Reporting"]
+    end
+
+    ADR012 --> PAY
+    ADR012 --> CHECKOUT
+    ADR012 --> GATEWAY
+    ADR012 --> BILLING
+    ADR012 --> FINANCE
+
+    style ADR012 fill:#0f3460,stroke:#533483,color:#fff
+    style PAY fill:#16213e,stroke:#0f3460,color:#fff
+    style CHECKOUT fill:#16213e,stroke:#0f3460,color:#fff
+    style GATEWAY fill:#16213e,stroke:#0f3460,color:#fff
+    style BILLING fill:#16213e,stroke:#0f3460,color:#fff
+    style FINANCE fill:#16213e,stroke:#0f3460,color:#fff
+```
+
+---
+
+## Compliance mapping
 
 | Framework | Control | How This ADR Addresses It |
 |-----------|---------|--------------------------|
@@ -173,13 +214,13 @@ Compliance with this ADR is confirmed by:
 
 | # | Source | Type | URL |
 |---|--------|------|-----|
-| 1 | Stripe API Documentation | Vendor Docs | https://stripe.com/docs/api |
-| 2 | Adyen Integration Guide | Vendor Docs | https://docs.adyen.com/development-resources/ |
-| 3 | PCI DSS v4.0 Requirements | Standard | https://www.pcisecuritystandards.org/document_library/ |
-| 4 | Circuit Breaker Pattern — Martin Fowler | Best Practice | https://martinfowler.com/bliki/CircuitBreaker.html |
+| 1 | Stripe API Documentation | Vendor Docs | <https://stripe.com/docs/api> |
+| 2 | Adyen Integration Guide | Vendor Docs | <https://docs.adyen.com/development-resources/> |
+| 3 | PCI DSS v4.0 Requirements | Standard | <https://www.pcisecuritystandards.org/document_library/> |
+| 4 | Circuit Breaker Pattern — Martin Fowler | Best Practice | <https://martinfowler.com/bliki/CircuitBreaker.html> |
 | 5 | ADR-0003: Database Selection | Internal | ../architecture/decisions/0003-database-selection.md |
 
-## Related Documents
+## Related documents
 
 - [ADR-0003: Database Selection](../architecture/decisions/0003-database-selection.md) — **Superseded** by this ADR
 - [ADR-0011: ArgoCD Deployment](../architecture/decisions/0011-argocd-image-updater-for-automated-deployments.md) — Deployment strategy for payment service
@@ -188,5 +229,5 @@ Compliance with this ADR is confirmed by:
 
 ---
 
-> **Note:** This is a fictional example demonstrating the ADR template format v2.0.
+> **Note:** This is a fictional example demonstrating the ADR template format v3.0.
 > See `docs/standards/33-ADR.md` for the full standard.

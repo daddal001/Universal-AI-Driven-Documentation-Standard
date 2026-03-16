@@ -1,0 +1,23 @@
+# Project-specific terms (case-sensitive regex, one per line)
+# These terms will not be flagged as spelling errors.
+AI
+API
+APIs
+CLI
+YAML
+JSON
+LLM
+LLMs
+GitHub
+GitLab
+Markdown
+markdownlint
+PostgreSQL
+Kubernetes
+pre-commit
+frontmatter
+linter
+linting
+runbook
+runbooks
+monorepo

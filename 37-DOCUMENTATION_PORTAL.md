@@ -12,7 +12,7 @@ version: "1.1.0"
 # Documentation Portal
 
 > 💡 **Open Source Projects:** This standard is optional for most OSS projects.
-> See [36-CONTEXT_GUIDANCE](./36-CONTEXT_GUIDANCE.md) for what you actually need.
+> See [38-CONTEXT_GUIDANCE](./38-CONTEXT_GUIDANCE.md) for what you actually need.
 
 > **Goal:** Provide a unified, searchable documentation experience across the entire organization, enabling engineers to discover and access any documentation in seconds.
 
@@ -523,12 +523,12 @@ Users see a **version dropdown** in the header.
 | Document | Purpose |
 |----------|---------|
 | [Portal Template](./templates/portal/README.md) | Ready-to-use MkDocs configuration |
-| [34-SEARCH_OPTIMIZATION.md](./34-SEARCH_OPTIMIZATION.md) | Advanced search configuration |
+| [36-SEARCH_OPTIMIZATION.md](./36-SEARCH_OPTIMIZATION.md) | Advanced search configuration |
 | [21-SERVICE_CATALOG.md](./21-SERVICE_CATALOG.md) | Backstage integration |
 | [26-ONBOARDING.md](./26-ONBOARDING.md) | New engineer documentation |
 | [01-PHILOSOPHY.md](./01-PHILOSOPHY.md) | Documentation principles |
 
 ---
 
-**Previous:** [34 - Search Optimization](./34-SEARCH_OPTIMIZATION.md)
-**Next:** [36 - Context Guidance](./36-CONTEXT_GUIDANCE.md)
+**Previous:** [36 - Search Optimization](./36-SEARCH_OPTIMIZATION.md)
+**Next:** [38 - Context Guidance](./38-CONTEXT_GUIDANCE.md)

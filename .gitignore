@@ -1,0 +1,15 @@
+# Vale style packages (downloaded via `vale sync`)
+styles/*
+# Keep vocabulary files (project-specific terms)
+!styles/config/
+!styles/config/**
+
+# Node
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Project-specific
+tone.md

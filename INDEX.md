@@ -13,7 +13,7 @@ status: "approved"
 
 > **Documentation that makes AI coding assistants understand your codebase.**
 
-This modular standard helps you write docs that work for humans AND AI assistants like Claude, Copilot, and Cursor.
+This modular standard helps you write docs that work for humans AND AI assistants like Claude, codex, and Cursor.
 
 ---
 
@@ -87,10 +87,10 @@ This modular standard helps you write docs that work for humans AND AI assistant
 | 15 | [CLI Tools](./15-CLI_TOOLS.md) | Command-line docs | You're documenting a CLI |
 | 18 | [API Documentation](./18-API_DOCUMENTATION.md) | REST, GraphQL, OpenAPI | You're documenting APIs |
 | 19 | [Database Documentation](./19-DATABASE_DOCUMENTATION.md) | Schemas, ERDs | You're documenting databases |
-| 42 | [Architecture](./42-ARCHITECTURE.md) | C4 Model, arc42, system docs | You're documenting system architecture |
-| 43 | [Configuration & Flags](./43-CONFIGURATION_FLAGS.md) | Env vars, feature flags, config schemas | You're documenting configuration |
-| 44 | [Error Catalog](./44-ERROR_CATALOG.md) | Error codes, resolutions | You're standardizing error handling |
-| 45 | [Monorepo Patterns](./45-MONOREPO_PATTERNS.md) | Multi-package docs | You have a monorepo |
+| 44 | [Architecture](./44-ARCHITECTURE.md) | C4 Model, arc42, system docs | You're documenting system architecture |
+| 45 | [Configuration & Flags](./45-CONFIGURATION_FLAGS.md) | Env vars, feature flags, config schemas | You're documenting configuration |
+| 46 | [Error Catalog](./46-ERROR_CATALOG.md) | Error codes, resolutions | You're standardizing error handling |
+| 47 | [Monorepo Patterns](./47-MONOREPO_PATTERNS.md) | Multi-package docs | You have a monorepo |
 
 ### Process Standards
 
@@ -100,6 +100,8 @@ This modular standard helps you write docs that work for humans AND AI assistant
 | 12 | [Reviews](./12-REVIEWS.md) | Doc review process | You need review guidelines |
 | 26 | [Onboarding](./26-ONBOARDING.md) | New developer docs | You're writing onboarding guides |
 | 33 | [ADRs](./33-ADR.md) | Decision records | You need to document architecture decisions |
+| 34 | [RFCs](./34-RFC.md) | Request for Comments | You need cross-team alignment on a proposal |
+| 35 | [Design Documents](./35-DESIGN_DOCUMENTS.md) | System design docs | You're designing a new system or feature |
 
 ### Specialized Standards
 
@@ -109,7 +111,7 @@ This modular standard helps you write docs that work for humans AND AI assistant
 | 24 | [Security & Compliance](./24-SECURITY_COMPLIANCE.md) | SOC2, GDPR, ISO27001 | You have compliance requirements |
 | 28 | [Mobile Apps](./28-MOBILE_APPS.md) | iOS/Android docs | You're documenting mobile apps |
 | 29 | [ML Model Cards](./29-ML_MODEL_CARDS.md) | ML documentation | You're documenting ML models |
-| 38 | [Open Source](./38-OPEN_SOURCE.md) | OSS-specific guidance | You're maintaining OSS |
+| 40 | [Open Source](./40-OPEN_SOURCE.md) | OSS-specific guidance | You're maintaining OSS |
 
 ---
 
@@ -190,7 +192,7 @@ Copy to `.github/workflows/` for PR-level validation:
 ## Full Standard List
 
 <details>
-<summary>Click to expand all 45 standards</summary>
+<summary>Click to expand all 48 standards</summary>
 
 | # | Standard | Category |
 |---|----------|----------|
@@ -228,18 +230,20 @@ Copy to `.github/workflows/` for PR-level validation:
 | 31 | [Dependencies](./31-DEPENDENCIES.md) | Technical |
 | 32 | [Progressive Disclosure](./32-PROGRESSIVE_DISCLOSURE.md) | Core |
 | 33 | [ADRs](./33-ADR.md) | Process |
-| 34 | [Search Optimization](./34-SEARCH_OPTIMIZATION.md) | Specialized |
-| 35 | [Documentation Portal](./35-DOCUMENTATION_PORTAL.md) | Specialized |
-| 36 | [Context Guidance](./36-CONTEXT_GUIDANCE.md) | Core |
-| 37 | [Migration Guide](./37-MIGRATION_GUIDE.md) | Process |
-| 38 | [Open Source](./38-OPEN_SOURCE.md) | Specialized |
-| 39 | [Integrations](./39-INTEGRATIONS.md) | Technical |
-| 40 | [Metrics](./40-METRICS.md) | Process |
-| 41 | [Observability](./41-OBSERVABILITY.md) | Technical |
-| 42 | [Architecture](./42-ARCHITECTURE.md) | Technical |
-| 43 | [Configuration & Feature Flags](./43-CONFIGURATION_FLAGS.md) | Technical |
-| 44 | [Error Catalog](./44-ERROR_CATALOG.md) | Technical |
-| 45 | [Monorepo Patterns](./45-MONOREPO_PATTERNS.md) | Technical |
+| 34 | [RFCs](./34-RFC.md) | Process |
+| 35 | [Design Documents](./35-DESIGN_DOCUMENTS.md) | Process |
+| 36 | [Search Optimization](./36-SEARCH_OPTIMIZATION.md) | Specialized |
+| 37 | [Documentation Portal](./37-DOCUMENTATION_PORTAL.md) | Specialized |
+| 38 | [Context Guidance](./38-CONTEXT_GUIDANCE.md) | Core |
+| 39 | [Migration Guide](./39-MIGRATION_GUIDE.md) | Process |
+| 40 | [Open Source](./40-OPEN_SOURCE.md) | Specialized |
+| 41 | [Integrations](./41-INTEGRATIONS.md) | Technical |
+| 42 | [Metrics](./42-METRICS.md) | Process |
+| 43 | [Observability](./43-OBSERVABILITY.md) | Technical |
+| 44 | [Architecture](./44-ARCHITECTURE.md) | Technical |
+| 45 | [Configuration & Feature Flags](./45-CONFIGURATION_FLAGS.md) | Technical |
+| 46 | [Error Catalog](./46-ERROR_CATALOG.md) | Technical |
+| 47 | [Monorepo Patterns](./47-MONOREPO_PATTERNS.md) | Technical |
 
 </details>
 

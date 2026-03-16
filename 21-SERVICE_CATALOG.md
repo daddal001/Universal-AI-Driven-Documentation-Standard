@@ -12,7 +12,7 @@ version: "1.0.0"
 # Service Catalog Standard
 
 > 💡 **Open Source Projects:** This standard is optional for most OSS projects.
-> See [36-CONTEXT_GUIDANCE](./36-CONTEXT_GUIDANCE.md) for what you actually need.
+> See [38-CONTEXT_GUIDANCE](./38-CONTEXT_GUIDANCE.md) for what you actually need.
 
 > **Goal:** Document microservices in a consistent, machine-readable format for Internal Developer Portals (IDPs) and service discovery.
 

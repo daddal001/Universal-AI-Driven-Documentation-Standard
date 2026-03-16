@@ -229,5 +229,5 @@ plugins:
 
 ---
 
-**Previous:** [33 - ADR](./33-ADR.md)
-**Next:** [35 - Documentation Portal](./35-DOCUMENTATION_PORTAL.md)
+**Previous:** [35 - Design Documents](./35-DESIGN_DOCUMENTS.md)
+**Next:** [37 - Documentation Portal](./37-DOCUMENTATION_PORTAL.md)

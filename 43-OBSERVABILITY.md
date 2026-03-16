@@ -315,5 +315,5 @@ SpanMetrics connector in OTEL Collector auto-generates RED metrics from traces.
 
 ---
 
-**Previous:** [40 - Metrics](./40-METRICS.md)
-**Next:** [42 - Architecture](./42-ARCHITECTURE.md)
+**Previous:** [42 - Metrics](./42-METRICS.md)
+**Next:** [44 - Architecture](./44-ARCHITECTURE.md)

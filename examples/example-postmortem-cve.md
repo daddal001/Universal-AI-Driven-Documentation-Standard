@@ -198,8 +198,8 @@ Our service Dockerfiles used `python:3.11-slim` (unqualified Debian release) whi
 
 ## Appendix
 
-- [NVD Advisory](https://nvd.nist.gov/vuln/detail/CVE-2025-99999) *(fictional)*
-- [libcurl Advisory](https://curl.se/docs/security.html) *(fictional)*
+- [NVD Advisory](https://nvd.nist.gov/vuln/detail/CVE-2025-99999) _(fictional)_
+- [libcurl Advisory](https://curl.se/docs/security.html) _(fictional)_
 - [Trivy Scan Results](https://github.com/org/repo/actions/runs/XXX)
 - [Deployment PR](https://github.com/org/repo/pull/XXX)
 

@@ -528,6 +528,37 @@ EOF
         safe_copy "$SCRIPT_DIR/.markdownlint-cli2.yaml" ".markdownlint-cli2.yaml"
     fi
 
+    # Copy Vale configuration and style validation script
+    if [[ -f "$SCRIPT_DIR/.vale.ini" ]]; then
+        safe_copy "$SCRIPT_DIR/.vale.ini" ".vale.ini"
+    fi
+    if [[ -f "$SCRIPT_DIR/scripts/validate-style.sh" ]]; then
+        mkdir -p scripts/docs
+        safe_copy "$SCRIPT_DIR/scripts/validate-style.sh" "scripts/docs/validate-style.sh"
+        chmod +x "scripts/docs/validate-style.sh" 2>/dev/null || true
+    fi
+
+    # Copy Vale vocabulary files (accept.txt / reject.txt)
+    if [[ -d "$SCRIPT_DIR/styles/config/vocabularies/Base" ]]; then
+        mkdir -p styles/config/vocabularies/Base
+        for vocab_file in accept.txt reject.txt; do
+            if [[ -f "$SCRIPT_DIR/styles/config/vocabularies/Base/$vocab_file" ]]; then
+                safe_copy "$SCRIPT_DIR/styles/config/vocabularies/Base/$vocab_file" "styles/config/vocabularies/Base/$vocab_file"
+            fi
+        done
+    fi
+
+    # Detect Vale CLI and sync styles or warn
+    if command -v vale &> /dev/null; then
+        print_info "Running vale sync to download style packages..."
+        vale sync 2>/dev/null && print_success "Vale styles synced" || print_warning "vale sync failed — run it manually later"
+    else
+        print_warning "Vale CLI not found. Install it for prose linting:"
+        print_info "  macOS:   brew install vale"
+        print_info "  Windows: choco install vale"
+        print_info "  Then run: vale sync"
+    fi
+
     echo ""
     echo -e "${GREEN}${BOLD}✅ Team documentation setup complete!${NC}"
     echo ""
@@ -541,6 +572,7 @@ EOF
     echo "  • scripts/git-hooks/ - Documentation enforcement hooks"
     echo "  • .pre-commit-config.yaml - Pre-commit configuration"
     echo "  • .markdownlint-cli2.yaml - Markdown linting rules"
+    echo "  • .vale.ini - Vale prose linting configuration"
     echo ""
     echo -e "  ${BOLD}Next steps:${NC}"
     echo "  1. Edit README.md with your project details"
@@ -548,6 +580,7 @@ EOF
     echo "  3. Copy templates to docs/ and fill them in"
     echo "  4. Install hooks: bash scripts/git-hooks/install.sh"
     echo "  5. Run: bash scripts/docs/validate-frontmatter.sh docs/"
+    echo "  6. Run: bash scripts/docs/validate-style.sh"
     echo ""
     echo -e "  ${CYAN}Need compliance docs? Run: bash docs/standards/init.sh${NC}"
     echo ""
@@ -660,7 +693,7 @@ select_mode() {
 ask_ai_support() {
     echo -e "${BOLD}AI Agent Support:${NC}"
     echo "  Creates llms.txt and AGENTS.md for AI coding assistants"
-    echo "  (Claude, Copilot, Cursor, etc.)"
+    echo "  (Claude, codex, Cursor, etc.)"
     echo ""
 
     read -p "  Enable AI agent support? [Y/n]: " AI_CHOICE
@@ -821,7 +854,7 @@ EOF
         cat > "AGENTS.md" << EOF
 # Agent Instructions
 
-> Instructions for AI coding agents (Claude, Copilot, Cursor, etc.)
+> Instructions for AI coding agents (Claude, codex, Cursor, etc.)
 
 ## Project Context
 This is a $PROJECT_TYPE project. [Add brief description].
@@ -914,6 +947,36 @@ copy_scripts() {
         safe_copy "$SCRIPT_DIR/.markdownlint-cli2.yaml" ".markdownlint-cli2.yaml"
     fi
 
+    # Copy Vale configuration and style validation script
+    if [[ -f "$SCRIPT_DIR/.vale.ini" ]]; then
+        safe_copy "$SCRIPT_DIR/.vale.ini" ".vale.ini"
+    fi
+    if [[ -f "$SCRIPT_DIR/scripts/validate-style.sh" ]]; then
+        safe_copy "$SCRIPT_DIR/scripts/validate-style.sh" "scripts/docs/validate-style.sh"
+        chmod +x "scripts/docs/validate-style.sh" 2>/dev/null || true
+    fi
+
+    # Copy Vale vocabulary files (accept.txt / reject.txt)
+    if [[ -d "$SCRIPT_DIR/styles/config/vocabularies/Base" ]]; then
+        mkdir -p styles/config/vocabularies/Base
+        for vocab_file in accept.txt reject.txt; do
+            if [[ -f "$SCRIPT_DIR/styles/config/vocabularies/Base/$vocab_file" ]]; then
+                safe_copy "$SCRIPT_DIR/styles/config/vocabularies/Base/$vocab_file" "styles/config/vocabularies/Base/$vocab_file"
+            fi
+        done
+    fi
+
+    # Detect Vale CLI and sync styles or warn
+    if command -v vale &> /dev/null; then
+        print_info "Running vale sync to download style packages..."
+        vale sync 2>/dev/null && print_success "Vale styles synced" || print_warning "vale sync failed — run it manually later"
+    else
+        print_warning "Vale CLI not found. Install it for prose linting:"
+        print_info "  macOS:   brew install vale"
+        print_info "  Windows: choco install vale"
+        print_info "  Then run: vale sync"
+    fi
+
     echo ""
 }
 
@@ -930,6 +993,7 @@ print_summary() {
     [[ "$INSTALL_MODE" != "minimal" ]] && echo "  • CI workflows in .github/workflows/"
     [[ "$INSTALL_MODE" != "minimal" ]] && echo "  • Documentation enforcement hooks in scripts/git-hooks/"
     [[ "$INSTALL_MODE" != "minimal" ]] && echo "  • Pre-commit + markdownlint configs"
+    [[ "$INSTALL_MODE" != "minimal" ]] && echo "  • Vale prose linting (.vale.ini)"
     [[ "$ENABLE_AI" == "true" ]] && echo "  • AI agent files (llms.txt, AGENTS.md)"
     [[ "$INSTALL_MODE" != "minimal" ]] && echo "  • Validation scripts in scripts/docs/"
     echo ""

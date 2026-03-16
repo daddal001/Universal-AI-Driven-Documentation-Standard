@@ -1,0 +1,8 @@
+# Rejected terms — flagged as errors when found.
+# Use the accepted spelling instead.
+Github
+Gitlab
+[Yy]aml
+[Jj]son
+[Mm]ark[Dd]own[Ll]int
+Postgre[^S]

@@ -125,7 +125,7 @@ version: "1.1.0"
 
 ## Vale Vocabulary
 
-These terms are configured in `.vale/styles/Vocab/` to prevent false positives:
+These terms are configured in `styles/config/vocabularies/Base/` to prevent false positives:
 
 ```
 AsyncAPI

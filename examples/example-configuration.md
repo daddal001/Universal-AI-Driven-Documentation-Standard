@@ -11,7 +11,7 @@ version: "1.0.0"
 
 # Configuration Reference — Auth Service
 
-> All environment variables for `auth-service`. See [43-CONFIGURATION_FLAGS.md](../43-CONFIGURATION_FLAGS.md) for the standard.
+> All environment variables for `auth-service`. See [45-CONFIGURATION_FLAGS.md](../45-CONFIGURATION_FLAGS.md) for the standard.
 
 ---
 

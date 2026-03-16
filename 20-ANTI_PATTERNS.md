@@ -315,7 +315,7 @@ npx markdown-link-check docs/**/*.md
 - Add frontmatter keywords
 - Include common search terms
 
-**Prevention:** See [Search Optimization](./34-SEARCH_OPTIMIZATION.md).
+**Prevention:** See [Search Optimization](./36-SEARCH_OPTIMIZATION.md).
 
 ---
 
@@ -409,7 +409,7 @@ npx markdown-link-check docs/**/*.md
 - Create shared templates
 - Centralize in documentation portal
 
-**Prevention:** See [Documentation Portal](./35-DOCUMENTATION_PORTAL.md).
+**Prevention:** See [Documentation Portal](./37-DOCUMENTATION_PORTAL.md).
 
 ---
 
@@ -477,8 +477,8 @@ If your documentation has accumulated multiple anti-patterns:
 |----------|---------|
 | [00 - Adoption Playbook](./00-ADOPTION_PLAYBOOK.md) | How to adopt standards systematically |
 | [05 - Quality](./05-QUALITY.md) | Quality criteria to aim for |
-| [37 - Migration Guide](./37-MIGRATION_GUIDE.md) | Migrate from other standards |
-| [40 - Metrics](./40-METRICS.md) | Measure documentation health |
+| [37 - Migration Guide](./39-MIGRATION_GUIDE.md) | Migrate from other standards |
+| [40 - Metrics](./42-METRICS.md) | Measure documentation health |
 
 ---
 

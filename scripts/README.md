@@ -243,7 +243,7 @@ Creates AI assistant configuration files.
 
 - `.cursorrules` — Cursor AI configuration
 - `AGENTS.md` — Agent behavior guidelines
-- `.github/copilot-instructions.md` — GitHub Copilot config
+- `.github/codex-instructions.md` — GitHub codex config
 
 ---
 

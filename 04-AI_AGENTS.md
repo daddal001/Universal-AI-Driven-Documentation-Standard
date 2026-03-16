@@ -11,7 +11,7 @@ version: "1.1.0"
 
 
 
-> This section ensures AI-generated documentation matches human standards. **All AI assistants (Claude, Copilot, Cursor, etc.) must follow these guidelines.**
+> This section ensures AI-generated documentation matches human standards. **All AI assistants (Claude, codex, Cursor, etc.) must follow these guidelines.**
 
 ---
 
@@ -139,16 +139,16 @@ The Model Context Protocol (MCP) allows AI tools to interact with documentation 
 
 ---
 
-## IDE Copilot Instructions
+## IDE codex Instructions
 
-Optimize AI code assistants (GitHub Copilot, Cursor, etc.) with project-specific instructions.
+Optimize AI code assistants (GitHub codex, Cursor, etc.) with project-specific instructions.
 
-### .github/copilot-instructions.md
+### .github/codex-instructions.md
 
 Create this file to guide code generation:
 
 ```markdown
-# Copilot Instructions
+# codex Instructions
 
 ## Project Context
 This is an enterprise platform using FastAPI (Python) and Next.js (TypeScript).
@@ -183,7 +183,7 @@ For complex features, add `.md` files in relevant directories:
 services/auth/
 ├── src/
 ├── docs/
-│   └── copilot-context.md    # Auth-specific patterns
+│   └── codex-context.md    # Auth-specific patterns
 └── README.md
 ```
 

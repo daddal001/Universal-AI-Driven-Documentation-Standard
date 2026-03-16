@@ -55,27 +55,27 @@ Use this checklist in PR descriptions for documentation changes:
 
 ### Technical Accuracy
 
-- [ ] Code samples compile/run without errors
-- [ ] API endpoints, parameters, and responses match current implementation
-- [ ] Version numbers and dependency versions are correct
-- [ ] Links to external resources are valid and point to stable URLs
-- [ ] Architecture diagrams reflect current system state
+* [ ] Code samples compile/run without errors
+* [ ] API endpoints, parameters, and responses match current implementation
+* [ ] Version numbers and dependency versions are correct
+* [ ] Links to external resources are valid and point to stable URLs
+* [ ] Architecture diagrams reflect current system state
 
 ### Audience Clarity
 
-- [ ] Prerequisites are explicitly listed
-- [ ] Steps are numbered and follow logical order
-- [ ] Acronyms are defined on first use
-- [ ] Expected output is shown for commands and code samples
-- [ ] "Why" context is provided before "How" instructions
+* [ ] Prerequisites are explicitly listed
+* [ ] Steps are numbered and follow logical order
+* [ ] Acronyms are defined on first use
+* [ ] Expected output is shown for commands and code samples
+* [ ] "Why" context is provided before "How" instructions
 
 ### Writing Consistency
 
-- [ ] Active voice, present tense, second person ("you")
-- [ ] Heading hierarchy is correct (no skipped levels)
-- [ ] Frontmatter fields are complete and `last_updated` is current
-- [ ] Formatting matches [Style Guide](./11-STYLE_GUIDE.md)
-- [ ] Vale and markdownlint pass
+* [ ] Active voice, present tense, second person ("you")
+* [ ] Heading hierarchy is correct (no skipped levels)
+* [ ] Frontmatter fields are complete and `last_updated` is current
+* [ ] Formatting matches [Style Guide](./11-STYLE_GUIDE.md)
+* [ ] Vale and markdownlint pass
 
 ## 3. Review Workflow
 

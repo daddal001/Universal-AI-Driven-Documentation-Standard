@@ -73,7 +73,7 @@ my-project/
 
 ## Optional: Add AI Support
 
-Want AI assistants (Claude, Copilot, Cursor) to understand your codebase better?
+Want AI assistants (Claude, codex, Cursor) to understand your codebase better?
 
 ```bash
 # Run the full interactive installer

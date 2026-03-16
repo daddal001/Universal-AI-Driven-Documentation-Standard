@@ -1,6 +1,6 @@
 #!/bin/bash
 # docs/standards/scripts/generate-ai-rules.sh
-# Generates .cursorrules, .github/copilot-instructions.md, and CLAUDE.md
+# Generates .cursorrules, .github/codex-instructions.md, and CLAUDE.md
 # based on documentation standards.
 
 set -e
@@ -47,10 +47,10 @@ EOF
 
 echo "  - Created .cursorrules"
 
-# 2. Generate .github/copilot-instructions.md
+# 2. Generate .github/codex-instructions.md
 mkdir -p .github
-cat > .github/copilot-instructions.md <<EOF
-# GitHub Copilot Instructions for $PROJ_NAME
+cat > .github/codex-instructions.md <<EOF
+# GitHub codex Instructions for $PROJ_NAME
 
 ## Documentation Standards
 This project enforces strict documentation standards.
@@ -82,7 +82,7 @@ This project enforces strict documentation standards.
 - Prefer updating existing docs over creating new files unless necessary.
 EOF
 
-echo "  - Created .github/copilot-instructions.md"
+echo "  - Created .github/codex-instructions.md"
 
 # 3. Generate CLAUDE.md
 cat > CLAUDE.md <<EOF

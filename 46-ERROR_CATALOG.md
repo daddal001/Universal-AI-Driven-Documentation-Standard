@@ -238,13 +238,13 @@ For AI agents to auto-diagnose errors:
 
 ## 8. Validation Checklist
 
-- [ ] Error code format follows `SERVICE-CATEGORY-NUMBER` convention
-- [ ] Every error code has a catalog entry with required fields
-- [ ] User-facing messages contain no internal implementation details
-- [ ] Error responses include `code`, `title`, `message`, and `docs_url`
-- [ ] No duplicate error codes across services
-- [ ] Deprecated errors have replacement codes documented
-- [ ] Error catalog is versioned alongside the codebase
+* [ ] Error code format follows `SERVICE-CATEGORY-NUMBER` convention
+* [ ] Every error code has a catalog entry with required fields
+* [ ] User-facing messages contain no internal implementation details
+* [ ] Error responses include `code`, `title`, `message`, and `docs_url`
+* [ ] No duplicate error codes across services
+* [ ] Deprecated errors have replacement codes documented
+* [ ] Error catalog is versioned alongside the codebase
 
 ---
 
@@ -254,10 +254,10 @@ For AI agents to auto-diagnose errors:
 |----------|---------|
 | [API Documentation](./06-API_DOCUMENTATION.md) | Error codes in API responses |
 | [Troubleshooting](./36-TROUBLESHOOTING.md) | Troubleshooting guides per error |
-| [Observability](./41-OBSERVABILITY.md) | Error logging and alerting |
-| [Configuration & Flags](./43-CONFIGURATION_FLAGS.md) | Config-related errors |
+| [Observability](./43-OBSERVABILITY.md) | Error logging and alerting |
+| [Configuration & Flags](./45-CONFIGURATION_FLAGS.md) | Config-related errors |
 
 ---
 
-**Previous:** [43 - Configuration & Feature Flags](./43-CONFIGURATION_FLAGS.md)
-**Next:** [45 - Monorepo Patterns](./45-MONOREPO_PATTERNS.md)
+**Previous:** [45 - Configuration & Feature Flags](./45-CONFIGURATION_FLAGS.md)
+**Next:** [47 - Monorepo Patterns](./47-MONOREPO_PATTERNS.md)

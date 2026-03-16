@@ -1282,12 +1282,12 @@ Contact @neworganization via GitHub Discussions.
 
 | Document | Purpose |
 |----------|---------|
-| [36-CONTEXT_GUIDANCE.md](./36-CONTEXT_GUIDANCE.md) | When to use OSS standards |
+| [38-CONTEXT_GUIDANCE.md](./38-CONTEXT_GUIDANCE.md) | When to use OSS standards |
 | [16-RELEASE_NOTES.md](./16-RELEASE_NOTES.md) | Detailed release note format |
 | [26-ONBOARDING.md](./26-ONBOARDING.md) | Internal onboarding (complement to contributor onboarding) |
 | [05-QUALITY.md](./05-QUALITY.md) | Quality criteria for all documentation |
 
 ---
 
-**Previous:** [37 - Migration Guide](./37-MIGRATION_GUIDE.md)
-**Next:** [39 - Integrations](./39-INTEGRATIONS.md)
+**Previous:** [39 - Migration Guide](./39-MIGRATION_GUIDE.md)
+**Next:** [41 - Integrations](./41-INTEGRATIONS.md)

@@ -827,5 +827,5 @@ graph TB
 
 ---
 
-**Previous:** [39 - Integrations](./39-INTEGRATIONS.md)
-**Next:** [41 - Observability](./41-OBSERVABILITY.md)
+**Previous:** [41 - Integrations](./41-INTEGRATIONS.md)
+**Next:** [43 - Observability](./43-OBSERVABILITY.md)

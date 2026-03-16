@@ -13,7 +13,7 @@ version: "1.0.0"
 
 > Monorepo for all Acme Platform services and shared libraries.
 
-See [45-MONOREPO_PATTERNS.md](../45-MONOREPO_PATTERNS.md) for the standard this follows.
+See [47-MONOREPO_PATTERNS.md](../47-MONOREPO_PATTERNS.md) for the standard this follows.
 
 ---
 
@@ -124,7 +124,7 @@ platform/
 
 ## Per-Package README Example
 
-Each package README follows the template from [45-MONOREPO_PATTERNS.md](../45-MONOREPO_PATTERNS.md):
+Each package README follows the template from [47-MONOREPO_PATTERNS.md](../47-MONOREPO_PATTERNS.md):
 
 ### `packages/auth/README.md`
 

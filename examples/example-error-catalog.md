@@ -11,7 +11,7 @@ version: "1.0.0"
 
 # Error Catalog — Order Platform
 
-> Error code reference for the Order Platform. See [44-ERROR_CATALOG.md](../44-ERROR_CATALOG.md) for the standard.
+> Error code reference for the Order Platform. See [46-ERROR_CATALOG.md](../46-ERROR_CATALOG.md) for the standard.
 
 **Error code format:** `SERVICE-CATEGORY-NNN`
 

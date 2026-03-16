@@ -12,7 +12,7 @@ version: "1.0.0"
 # Data Pipeline Documentation
 
 > 💡 **Open Source Projects:** This standard is optional for most OSS projects.
-> See [36-CONTEXT_GUIDANCE](./36-CONTEXT_GUIDANCE.md) for what you actually need.
+> See [38-CONTEXT_GUIDANCE](./38-CONTEXT_GUIDANCE.md) for what you actually need.
 
 > **Goal:** Document data pipelines (Kafka, Flink, Spark, Airflow) so engineers understand data flow, schemas, SLAs, and failure handling without reverse-engineering code.
 

@@ -83,7 +83,7 @@ Don't try to write everything. Start with these:
 - [ ] Write `RUNBOOK.md` for your most critical service
 - [ ] Update `llms.txt` with your actual project details
 - [ ] Update `AGENTS.md` with your coding conventions
-- [ ] Test: Does Cursor/Copilot give better suggestions?
+- [ ] Test: Does Cursor/codex give better suggestions?
 
 ## AI Assistant Setup
 
@@ -121,7 +121,7 @@ The installer creates two files that help AI understand your codebase:
 - Don't delete migration files
 ```
 
-**Result:** AI assistants like Claude and Copilot will follow your conventions.
+**Result:** AI assistants like Claude and codex will follow your conventions.
 
 ## Skip What You Don't Need
 

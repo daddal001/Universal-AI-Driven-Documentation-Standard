@@ -1141,10 +1141,10 @@ GitHub/GitLab + Backstage + Docusaurus (for product docs)
 | Document | Purpose |
 |----------|---------|
 | [04-AI_AGENTS.md](./04-AI_AGENTS.md) | AI-assisted documentation generation |
-| [36-CONTEXT_GUIDANCE.md](./36-CONTEXT_GUIDANCE.md) | Choose right tools for your context |
+| [38-CONTEXT_GUIDANCE.md](./38-CONTEXT_GUIDANCE.md) | Choose right tools for your context |
 | [00-ADOPTION_PLAYBOOK.md](./00-ADOPTION_PLAYBOOK.md) | Implementation timeline |
 
 ---
 
-**Previous:** [38 - Open Source](./38-OPEN_SOURCE.md)
-**Next:** [40 - Metrics](./40-METRICS.md)
+**Previous:** [40 - Open Source](./40-OPEN_SOURCE.md)
+**Next:** [42 - Metrics](./42-METRICS.md)

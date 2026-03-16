@@ -173,7 +173,7 @@ classification: "internal" # Only for employees
 
 ### 9. What are AGENTS.md and llms.txt?
 
-**AGENTS.md** — Instructions for AI coding assistants (Claude, Copilot, Cursor):
+**AGENTS.md** — Instructions for AI coding assistants (Claude, codex, Cursor):
 
 - Architecture rules
 - Code style guidelines

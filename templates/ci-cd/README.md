@@ -46,6 +46,7 @@ cp docs/standards/templates/ci-cd/vale-style.yml .github/workflows/
 | [link-checker.yml](./link-checker.yml) | Check for broken links | PR to docs/ |
 | [vale-style.yml](./vale-style.yml) | Vale prose linting | PR to docs/ |
 | [freshness-check.yml](./freshness-check.yml) | Detect stale documentation | Weekly schedule |
+| [adr-validation.yml](./adr-validation.yml) | **ADR enforcement** (frontmatter, structure, review dates, decision linking) | PR to ADR dirs + weekly schedule |
 
 ## What Each Workflow Does
 
@@ -101,6 +102,19 @@ Standalone link checker using `markdown-link-check`. Configure via `.markdown-li
 
 Requires: `scripts/git-hooks/doc-enforcement.conf` and `scripts/git-hooks/doc-enforcement-lib.sh` (see `scripts/git-hooks/README.md` for details).
 
+### adr-validation.yml
+
+**Full ADR enforcement.** Four jobs that validate everything the [ADR standard](../../33-ADR.md) requires:
+
+| Job | What It Checks | When |
+|-----|---------------|------|
+| **Validate Frontmatter** | All required fields present, valid status values | On PR |
+| **Validate Structure** | All 12 required sections present, minimum 2 references | On PR |
+| **Check Review Dates** | Flags ADRs past `review_date`, warns on upcoming reviews | Weekly + manual |
+| **Check Decision Linking** | `supersedes`/`superseded_by` consistency between ADRs | On PR |
+
+Customize `ADR_DIRS` to match your ADR locations and `REVIEW_OVERDUE_DAYS` for how many days past `review_date` before it fails the check.
+
 ### freshness-check.yml
 
 Runs weekly to detect docs that haven't been updated in 90+ days. Customize threshold in the workflow file.
@@ -110,11 +124,14 @@ Runs weekly to detect docs that haven't been updated in 90+ days. Customize thre
 Prose linting with Vale. Requires `.vale.ini` configuration:
 
 ```ini
-StylesPath = .vale/styles
+StylesPath = styles
 MinAlertLevel = suggestion
 
+Packages = Google, write-good, proselint, alex, Readability
+Vocab = Base
+
 [*.md]
-BasedOnStyles = Google
+BasedOnStyles = Vale, Google, write-good, proselint, alex, Readability
 ```
 
 ## Required Files

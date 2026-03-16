@@ -66,7 +66,7 @@ Different contexts require different documentation approaches. This guide helps 
 | `05-QUALITY.md` | P0 | Ensure quality bar |
 | `16-RELEASE_NOTES.md` | P0 | Changelog standards |
 | `18-API_DOCUMENTATION.md` | P1 | If you have public APIs |
-| `38-OPEN_SOURCE.md` | P1 | OSS-specific guidance |
+| `40-OPEN_SOURCE.md` | P1 | OSS-specific guidance |
 | `26-ONBOARDING.md` | P1 | Contributor onboarding |
 | `11-STYLE_GUIDE.md` | P2 | Consistency across contributors |
 
@@ -88,7 +88,7 @@ Different contexts require different documentation approaches. This guide helps 
 
 - Projects may outlive original creators
 - Maintainer handoff planning critical
-- See [38-OPEN_SOURCE.md](./38-OPEN_SOURCE.md) for complete guidance
+- See [40-OPEN_SOURCE.md](./40-OPEN_SOURCE.md) for complete guidance
 
 ---
 
@@ -192,12 +192,12 @@ Different contexts require different documentation approaches. This guide helps 
 | `28-INCIDENT_POSTMORTEMS.md` | P1 | Learn from incidents | SRE |
 | **Tooling & Automation (P1)** | | | |
 | `04-AI_AGENTS.md` | P1 | AI-assisted documentation | Engineering |
-| `39-INTEGRATIONS.md` | P1 | MkDocs, Backstage, GitHub | DevOps |
+| `41-INTEGRATIONS.md` | P1 | MkDocs, Backstage, GitHub | DevOps |
 | `scripts/*.sh` | P1 | Validation automation | CI/CD |
 | **Advanced (P2)** | | | |
 | `13-FEEDBACK.md` | P2 | Measure helpfulness | Product |
 | `17-MATURITY_MODEL.md` | P2 | Track improvement | Doc lead |
-| `40-METRICS.md` | P2 | ROI calculation | Engineering manager |
+| `42-METRICS.md` | P2 | ROI calculation | Engineering manager |
 
 **Total time investment:** 25-50% of 1 FTE (dedicated documentation engineer or distributed across team)
 
@@ -266,21 +266,21 @@ Different contexts require different documentation approaches. This guide helps 
 
 **Enterprise-Specific:**
 
-- 30-CHANGE_LOGS, 31-DEPENDENCIES, 32-TESTING_DOCS, 33-CI_CD_DOCS, 34-DISASTER_RECOVERY, 35-DOCUMENTATION_PORTAL
+- 30-CHANGE_LOGS, 31-DEPENDENCIES, 32-TESTING_DOCS, 33-CI_CD_DOCS, 34-DISASTER_RECOVERY, 37-DOCUMENTATION_PORTAL
 
 **Meta:**
 
-- 36-CONTEXT_GUIDANCE (this document), 37-MIGRATION_GUIDE, 40-METRICS
+- 38-CONTEXT_GUIDANCE (this document), 39-MIGRATION_GUIDE, 42-METRICS
 
 #### Should-Have (10 standards)
 
 **For OSS or external-facing products:**
 
-- 38-OPEN_SOURCE
+- 40-OPEN_SOURCE
 
 **For multi-team organizations:**
 
-- 39-INTEGRATIONS (Backstage, JIRA, etc.)
+- 41-INTEGRATIONS (Backstage, JIRA, etc.)
 
 **For continuous improvement:**
 
@@ -301,7 +301,7 @@ Different contexts require different documentation approaches. This guide helps 
 - Monitoring/analytics: $5-10K/year (Plausible, Grafana)
 - **Total:** $170-330K/year investment
 
-**Expected ROI:** 300-500% (see [40-METRICS.md](./40-METRICS.md) for calculation)
+**Expected ROI:** 300-500% (see [42-METRICS.md](./42-METRICS.md) for calculation)
 
 ### Governance and Review Processes
 
@@ -368,13 +368,13 @@ Comprehensive table showing which standards apply to each context:
 | 32-TESTING_DOCS | ⚪ P2 | ✅ P1 | ✅ P0 | ✅ P1 |
 | 33-CI_CD_DOCS | ✅ P1 | ✅ P0 | ✅ P0 | ✅ P1 |
 | 34-DISASTER_RECOVERY | ⚪ P2 | ✅ P1 | ✅ P0 | ⚪ Skip |
-| 35-DOCUMENTATION_PORTAL | ⚪ Skip | ✅ P1 | ✅ P0 | ⚪ Skip |
+| 37-DOCUMENTATION_PORTAL | ⚪ Skip | ✅ P1 | ✅ P0 | ⚪ Skip |
 | **Context & Migration** | | | | |
-| 36-CONTEXT_GUIDANCE | ✅ P0 | ✅ P0 | ✅ P0 | ✅ P0 |
-| 37-MIGRATION_GUIDE | ✅ P1 | ✅ P1 | ✅ P0 | ✅ P1 |
-| 38-OPEN_SOURCE | ⚪ Skip | ⚪ Skip | ✅ P1 | ✅ P0 |
-| 39-INTEGRATIONS | ⚪ Skip | ✅ P1 | ✅ P0 | ⚪ P2 |
-| 40-METRICS | ⚪ Skip | ⚪ P2 | ✅ P0 | ⚪ P2 |
+| 38-CONTEXT_GUIDANCE | ✅ P0 | ✅ P0 | ✅ P0 | ✅ P0 |
+| 39-MIGRATION_GUIDE | ✅ P1 | ✅ P1 | ✅ P0 | ✅ P1 |
+| 40-OPEN_SOURCE | ⚪ Skip | ⚪ Skip | ✅ P1 | ✅ P0 |
+| 41-INTEGRATIONS | ⚪ Skip | ✅ P1 | ✅ P0 | ⚪ P2 |
+| 42-METRICS | ⚪ Skip | ⚪ P2 | ✅ P0 | ⚪ P2 |
 
 **Legend:**
 
@@ -414,7 +414,7 @@ graph TD
     E1 -->|Level 3+| E3[All 40 standards<br/>1-3 FTE documentation team]
 
     OSS --> O1{First 100 contributors yet?}
-    O1 -->|No| O2[Focus on README + CONTRIBUTING<br/>See 38-OPEN_SOURCE]
+    O1 -->|No| O2[Focus on README + CONTRIBUTING<br/>See 40-OPEN_SOURCE]
     O1 -->|Yes| O3[Full OSS standard set<br/>Community-driven maintenance]
 
     S2 --> RESULT1[Result: Lightweight, pragmatic docs]
@@ -444,12 +444,12 @@ graph TD
 | Document | Purpose |
 |----------|---------|
 | [00-ADOPTION_PLAYBOOK.md](./00-ADOPTION_PLAYBOOK.md) | 12-week implementation plan |
-| [37-MIGRATION_GUIDE.md](./37-MIGRATION_GUIDE.md) | Migrating from other standards |
-| [38-OPEN_SOURCE.md](./38-OPEN_SOURCE.md) | OSS-specific guidance |
-| [40-METRICS.md](./40-METRICS.md) | Measuring documentation success |
+| [39-MIGRATION_GUIDE.md](./39-MIGRATION_GUIDE.md) | Migrating from other standards |
+| [40-OPEN_SOURCE.md](./40-OPEN_SOURCE.md) | OSS-specific guidance |
+| [42-METRICS.md](./42-METRICS.md) | Measuring documentation success |
 | [QUICK_START.md](./QUICK_START.md) | 5-minute quickstart guide |
 
 ---
 
-**Previous:** [35 - Documentation Portal](./35-DOCUMENTATION_PORTAL.md)
-**Next:** [37 - Migration Guide](./37-MIGRATION_GUIDE.md)
+**Previous:** [37 - Documentation Portal](./37-DOCUMENTATION_PORTAL.md)
+**Next:** [39 - Migration Guide](./39-MIGRATION_GUIDE.md)

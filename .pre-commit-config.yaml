@@ -29,3 +29,11 @@ repos:
     hooks:
       - id: markdownlint-cli2
         args: [--fix]
+
+  # ── Prose Style Linting (Vale) ──────────────────────────────────
+  - repo: https://github.com/errata-ai/vale
+    rev: v3.9.6
+    hooks:
+      - id: vale
+        args: [--minAlertLevel=error]
+        types: [markdown]

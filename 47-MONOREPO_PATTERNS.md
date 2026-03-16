@@ -304,14 +304,14 @@ Run doc checks scoped to changed packages, not the entire repo:
 
 ## 10. Validation Checklist
 
-- [ ] Root README includes package directory table
-- [ ] Every package has its own README with required sections
-- [ ] Cross-package links use correct relative paths
-- [ ] Shared concepts are documented at root level, not duplicated per-package
-- [ ] Per-package changelogs exist for publishable packages
-- [ ] CI validates docs per changed package, not repo-wide
-- [ ] Doc-enforcement hook correctly resolves scopes to package boundaries
-- [ ] Workspace tool config and doc structure are aligned
+* [ ] Root README includes package directory table
+* [ ] Every package has its own README with required sections
+* [ ] Cross-package links use correct relative paths
+* [ ] Shared concepts are documented at root level, not duplicated per-package
+* [ ] Per-package changelogs exist for publishable packages
+* [ ] CI validates docs per changed package, not repo-wide
+* [ ] Doc-enforcement hook correctly resolves scopes to package boundaries
+* [ ] Workspace tool config and doc structure are aligned
 
 ---
 
@@ -321,10 +321,10 @@ Run doc checks scoped to changed packages, not the entire repo:
 |----------|---------|
 | [Repository Structure](./02-REPOSITORY_STRUCTURE.md) | Base directory conventions |
 | [Versioning](./04-VERSIONING.md) | Changelog and versioning standards |
-| [Configuration & Flags](./43-CONFIGURATION_FLAGS.md) | Per-package config documentation |
-| [Error Catalog](./44-ERROR_CATALOG.md) | Per-service error namespacing |
+| [Configuration & Flags](./45-CONFIGURATION_FLAGS.md) | Per-package config documentation |
+| [Error Catalog](./46-ERROR_CATALOG.md) | Per-service error namespacing |
 
 ---
 
-**Previous:** [44 - Error Catalog](./44-ERROR_CATALOG.md)
+**Previous:** [46 - Error Catalog](./46-ERROR_CATALOG.md)
 **Next:** [Index](./INDEX.md)

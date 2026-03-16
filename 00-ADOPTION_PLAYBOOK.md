@@ -97,7 +97,7 @@ version: "1.0.0"
 
 | Day | Task | Time | Deliverable |
 |-----|------|------|-------------|
-| Mon | Read [36-CONTEXT_GUIDANCE.md](./36-CONTEXT_GUIDANCE.md) | 30 min | Know which standards to adopt |
+| Mon | Read [38-CONTEXT_GUIDANCE.md](./38-CONTEXT_GUIDANCE.md) | 30 min | Know which standards to adopt |
 | Tue | Create prioritization matrix | 1 hour | Ranked list of standards |
 | Wed | Read [17-MATURITY_MODEL.md](./17-MATURITY_MODEL.md) | 30 min | Understand maturity levels |
 | Thu | Draft team proposal | 1 hour | Presentation deck |
@@ -262,7 +262,7 @@ jobs:
 | Day | Task | Time | Resource | Deliverable |
 |-----|------|------|----------|-------------|
 | Mon | Set up AI prompts | 1 hour | [04-AI_AGENTS.md](./04-AI_AGENTS.md) | Prompt library |
-| Tue | Test AI doc generation | 1.5 hours | Claude/Copilot | Generated docs |
+| Tue | Test AI doc generation | 1.5 hours | Claude/codex | Generated docs |
 | Wed | Create template generator | 1 hour | Script | Automation |
 | Thu | Document AI workflow | 1 hour | Guide | Team playbook |
 | Fri | Train team on AI tools | 30 min | Workshop | Team capability |
@@ -405,7 +405,7 @@ mkdocs gh-deploy
 | Day | Task | Time | Resource | Deliverable |
 |-----|------|------|----------|-------------|
 | Mon | Measure against maturity model | 1.5 hours | [17-MATURITY_MODEL.md](./17-MATURITY_MODEL.md) | Maturity score |
-| Tue | Calculate success metrics | 1 hour | [40-METRICS.md](./40-METRICS.md) | Metrics dashboard |
+| Tue | Calculate success metrics | 1 hour | [42-METRICS.md](./42-METRICS.md) | Metrics dashboard |
 | Wed | Identify Level 4 improvements | 1 hour | Gap analysis | Improvement plan |
 | Thu | Create 6-month roadmap | 1.5 hours | Planning session | Roadmap |
 | Fri | Celebrate and retrospective | 1 hour | Team meeting | Lessons learned |
@@ -484,7 +484,7 @@ Different team sizes require different approaches to adopting documentation stan
 | **Time Commitment** | Dedicated 50% documentation lead + 1 hr/week per developer |
 | **Timeline** | 12 weeks for core, 6 months for comprehensive coverage |
 | **Standards to Adopt** | 25 standards (all P0/P1, selective P2) |
-| **What to Focus On** | All core standards, plus team-specific needs from [36-CONTEXT_GUIDANCE](./36-CONTEXT_GUIDANCE.md) |
+| **What to Focus On** | All core standards, plus team-specific needs from [38-CONTEXT_GUIDANCE](./38-CONTEXT_GUIDANCE.md) |
 | **What to Skip** | Highly specialized standards not applicable (e.g., [28-MOBILE_APPS](./28-MOBILE_APPS.md) if no mobile development) |
 | **Organizational Structure** | Documentation working group (3-5 members from different teams) |
 | **Recommended Approach** | Dedicated lead coordinates, working group champions adoption, embed doc tasks in sprints |
@@ -503,7 +503,7 @@ Different team sizes require different approaches to adopting documentation stan
 | **Time Commitment** | 1-3 full-time documentation engineers + embedded tech writers |
 | **Timeline** | 12 weeks foundation, 12 months for full enterprise maturity |
 | **Standards to Adopt** | All 40 standards |
-| **What to Focus On** | Comprehensive coverage, compliance ([24-SECURITY_COMPLIANCE](./24-SECURITY_COMPLIANCE.md)), governance ([07-GOVERNANCE](./07-GOVERNANCE.md)), portals ([35-DOCUMENTATION_PORTAL](./35-DOCUMENTATION_PORTAL.md)) |
+| **What to Focus On** | Comprehensive coverage, compliance ([24-SECURITY_COMPLIANCE](./24-SECURITY_COMPLIANCE.md)), governance ([07-GOVERNANCE](./07-GOVERNANCE.md)), portals ([37-DOCUMENTATION_PORTAL](./37-DOCUMENTATION_PORTAL.md)) |
 | **What to Skip** | None (adopt all with prioritization) |
 | **Organizational Structure** | Dedicated documentation team with docs-as-code culture |
 | **Recommended Approach** | Centralized documentation team, automated validation, documentation portal, formal governance |
@@ -675,12 +675,12 @@ Avoid these common mistakes when adopting documentation standards:
 **Why It Happens:**
 
 - Ambitious goals without prioritization
-- Not using [36-CONTEXT_GUIDANCE.md](./36-CONTEXT_GUIDANCE.md)
+- Not using [38-CONTEXT_GUIDANCE.md](./38-CONTEXT_GUIDANCE.md)
 - Perfectionism over pragmatism
 
 **Solution:**
 
-- Use [36-CONTEXT_GUIDANCE.md](./36-CONTEXT_GUIDANCE.md) to identify your context (OSS/Startup/Mid-size/Enterprise)
+- Use [38-CONTEXT_GUIDANCE.md](./38-CONTEXT_GUIDANCE.md) to identify your context (OSS/Startup/Mid-size/Enterprise)
 - Adopt core 10-15 standards first
 - Follow phased adoption (Learn → Build → Enforce → Scale)
 - Celebrate small wins
@@ -946,7 +946,7 @@ If you've improved these standards during adoption:
 #### Level 3 (Defined) → Level 4 (Quantitatively Managed)
 
 - Implement comprehensive metrics dashboard
-- Track documentation ROI ([40-METRICS.md](./40-METRICS.md))
+- Track documentation ROI ([42-METRICS.md](./42-METRICS.md))
 - Use data to drive decisions
 - A/B test documentation approaches
 - Timeline: 3-6 months
@@ -1003,9 +1003,9 @@ You've successfully adopted documentation standards if:
 | **Philosophy** | Understand why | [01-PHILOSOPHY.md](./01-PHILOSOPHY.md) |
 | **Document Types** | Know what to document | [03-DOCUMENT_TYPES.md](./03-DOCUMENT_TYPES.md) |
 | **Quality Criteria** | Measure success | [05-QUALITY.md](./05-QUALITY.md) |
-| **Context Guidance** | Choose standards | [36-CONTEXT_GUIDANCE.md](./36-CONTEXT_GUIDANCE.md) |
+| **Context Guidance** | Choose standards | [38-CONTEXT_GUIDANCE.md](./38-CONTEXT_GUIDANCE.md) |
 | **Maturity Model** | Track progress | [17-MATURITY_MODEL.md](./17-MATURITY_MODEL.md) |
-| **Metrics** | Measure ROI | [40-METRICS.md](./40-METRICS.md) |
+| **Metrics** | Measure ROI | [42-METRICS.md](./42-METRICS.md) |
 | **Templates** | Start faster | `templates/` folder |
 | **Examples** | See gold standard | `examples/` folder |
 | **Validation Scripts** | Ensure quality | `scripts/` folder |
@@ -1032,10 +1032,10 @@ npx markdown-link-check **/*.md
 
 **Related Documents:**
 
-- [36-CONTEXT_GUIDANCE.md](./36-CONTEXT_GUIDANCE.md) - Choose which standards to adopt
-- [37-MIGRATION_GUIDE.md](./37-MIGRATION_GUIDE.md) - Migrate from other standards
+- [38-CONTEXT_GUIDANCE.md](./38-CONTEXT_GUIDANCE.md) - Choose which standards to adopt
+- [39-MIGRATION_GUIDE.md](./39-MIGRATION_GUIDE.md) - Migrate from other standards
 - [17-MATURITY_MODEL.md](./17-MATURITY_MODEL.md) - Assess documentation maturity
-- [40-METRICS.md](./40-METRICS.md) - Measure documentation success
+- [42-METRICS.md](./42-METRICS.md) - Measure documentation success
 
 **Previous:** N/A (Entry point to standards)
 **Next:** [01 - Philosophy](./01-PHILOSOPHY.md)

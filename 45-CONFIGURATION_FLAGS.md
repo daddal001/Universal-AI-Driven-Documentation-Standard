@@ -218,13 +218,13 @@ DATABASE_URL=postgresql://user:password@localhost:5432/mydb
 
 ## 7. Validation Checklist
 
-- [ ] Every config item has name, type, default, description, and sensitivity flag
-- [ ] `.env.example` exists and lists all variables with placeholder values
-- [ ] No real credentials in `.env.example` or documentation
-- [ ] Feature flags have owner, creation date, and target removal date
-- [ ] Deprecated config items include migration instructions
-- [ ] Machine-readable schema exists for services with >10 config items
-- [ ] Startup validation fails fast on invalid config
+* [ ] Every config item has name, type, default, description, and sensitivity flag
+* [ ] `.env.example` exists and lists all variables with placeholder values
+* [ ] No real credentials in `.env.example` or documentation
+* [ ] Feature flags have owner, creation date, and target removal date
+* [ ] Deprecated config items include migration instructions
+* [ ] Machine-readable schema exists for services with >10 config items
+* [ ] Startup validation fails fast on invalid config
 
 ---
 
@@ -235,9 +235,9 @@ DATABASE_URL=postgresql://user:password@localhost:5432/mydb
 | [Security & Compliance](./24-SECURITY_COMPLIANCE.md) | Secrets management |
 | [Deployment](./30-DEPLOYMENT.md) | Per-environment configuration |
 | [ADR](./33-ADR.md) | Decisions behind config choices |
-| [Observability](./41-OBSERVABILITY.md) | Config-driven logging levels |
+| [Observability](./43-OBSERVABILITY.md) | Config-driven logging levels |
 
 ---
 
-**Previous:** [42 - Architecture](./42-ARCHITECTURE.md)
-**Next:** [44 - Error Catalog](./44-ERROR_CATALOG.md)
+**Previous:** [44 - Architecture](./44-ARCHITECTURE.md)
+**Next:** [46 - Error Catalog](./46-ERROR_CATALOG.md)
