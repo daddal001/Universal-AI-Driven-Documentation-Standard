@@ -280,7 +280,7 @@ OAuth 2.1 consolidates security best practices. Document these mandatory element
 3. Redirect to:
    ```
 
-   GET /oauth/authorize
+   GET /oauth/realms/{realm}/protocol/openid-connect/auth
      ?response_type=code
      &client_id={client_id}
      &redirect_uri={redirect_uri}
@@ -291,15 +291,15 @@ OAuth 2.1 consolidates security best practices. Document these mandatory element
 
    ```
 4. Exchange code for tokens:
-   ```bash
-   POST /oauth/token
-   Content-Type: application/x-www-form-urlencoded
+   ```http
+   POST /api/auth/token
+   Content-Type: application/json
 
-   grant_type=authorization_code
-   &code={authorization_code}
-   &redirect_uri={redirect_uri}
-   &client_id={client_id}
-   &code_verifier={code_verifier}
+   {
+     "code": "{authorization_code}",
+     "redirect_uri": "{redirect_uri}",
+     "code_verifier": "{code_verifier}"
+   }
    ```
 
 ### Token Response
